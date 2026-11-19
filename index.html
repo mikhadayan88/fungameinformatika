@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberCampus Race — Live Auditorium Crowd-Controlled Game</title>
+    <title>Quiz Race Prodi Informatika - Universitas Satya Terra Bhinneka</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Canvas Confetti untuk perayaan pemenang -->
@@ -22,22 +22,30 @@
                     },
                     colors: {
                         cyber: {
-                            dark: '#070913',
-                            card: '#101426',
+                            dark: '#060812',
+                            card: '#0E1324',
                             cyan: '#00F5D4',
                             purple: '#9B5DE5',
                             gold: '#FEE440',
                             orange: '#FF6B35',
-                            pink: '#F15BB5'
+                            emerald: '#10B981',
+                            rose: '#F43F5E'
                         }
                     },
                     animation: {
                         'float': 'float 3s ease-in-out infinite',
+                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both'
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
                             '50%': { transform: 'translateY(-8px)' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
                         }
                     }
                 }
@@ -47,7 +55,7 @@
 
     <style>
         body {
-            background-color: #070913;
+            background-color: #060812;
             color: #F8FAFC;
             overflow-x: hidden;
             touch-action: manipulation;
@@ -58,8 +66,8 @@
         .cyber-grid {
             background-size: 40px 40px;
             background-image: 
-                linear-gradient(to right, rgba(0, 245, 212, 0.06) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(155, 93, 229, 0.06) 1px, transparent 1px);
+                linear-gradient(to right, rgba(0, 245, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(155, 93, 229, 0.05) 1px, transparent 1px);
         }
 
         .glow-cyan { box-shadow: 0 0 24px rgba(0, 245, 212, 0.35); }
@@ -76,17 +84,13 @@
             background-color: #1e293b;
         }
 
-        .tap-btn:active {
-            transform: scale(0.92);
-        }
-
         .racer-entity {
-            transition: left 0.25s cubic-bezier(0.22, 1, 0.36, 1), top 0.35s ease;
+            transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1), top 0.35s ease;
             will-change: left;
         }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #070913; }
+        ::-webkit-scrollbar-track { background: #060812; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
     </style>
 </head>
@@ -97,7 +101,7 @@
         <div class="bg-cyber-card border-2 border-cyber-cyan/50 rounded-3xl p-6 max-w-sm w-full text-center glow-cyan">
             <div id="modalIcon" class="text-5xl mb-3">⚡</div>
             <h3 id="modalTitle" class="text-xl font-extrabold text-white mb-2">Info</h3>
-            <p id="modalMessage" class="text-slate-300 text-sm mb-6 leading-relaxed">Pesan sistem.</p>
+            <p id="modalMessage" class="text-slate-300 text-sm mb-6 leading-relaxed break-words">Pesan sistem.</p>
             <button onclick="closeModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyber-cyan to-blue-500 text-slate-950 font-extrabold hover:opacity-90 transition cursor-pointer">
                 Mengerti
             </button>
@@ -106,23 +110,23 @@
 
     <!-- ==================== 1. HALAMAN UTAMA (PILIH MODE) ==================== -->
     <section id="view-landing" class="flex-1 flex flex-col items-center justify-center p-5 max-w-4xl mx-auto w-full">
-        <div class="text-center mb-8">
+        <div class="text-center mb-7">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyber-purple/20 border border-cyber-purple/50 text-cyber-cyan text-xs font-mono uppercase tracking-wider mb-4">
                 <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-ping"></span>
-                Open House Teknik Informatika
+                Open House Program Studi Informatika
             </div>
             <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-cyber-cyan via-white to-cyber-gold bg-clip-text text-transparent mb-3">
-                CYBERCAMPUS RACE
+                STBHINNEKA QUIZ RACE
             </h1>
-            <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto">
-                Balapan interaktif massal untuk 200+ siswa di auditorium! Kendalikan avatarmu dari HP menuju garis finis dan menangkan merchandise kampus.
+            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto">
+                Balapan kecerdasan IT untuk 200+ siswa di auditorium! Jawab <b>10 pertanyaan dasar komputer</b> secepat dan setepat mungkin untuk melesatkan avatarmu ke garis finis.
             </p>
         </div>
 
-        <!-- Status Koneksi Real-Time -->
-        <div id="connection-banner" class="mb-6 px-4 py-2.5 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center gap-3 text-xs sm:text-sm font-mono">
+        <!-- Status Koneksi Firebase Real-Time -->
+        <div id="connection-banner" class="mb-7 px-4 py-2.5 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center gap-3 text-xs sm:text-sm font-mono">
             <span id="conn-dot" class="w-3 h-3 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
-            <span id="conn-text" class="text-slate-300">Menghubungkan ke Server Cloud Real-Time...</span>
+            <span id="conn-text" class="text-slate-300">Menghubungkan ke Firebase (fungameinformatika)...</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
@@ -134,7 +138,7 @@
                 <div class="text-xs font-mono text-cyber-cyan uppercase tracking-wider mb-1">Untuk Dosen / Panitia</div>
                 <h2 class="text-2xl font-extrabold text-white mb-2">Layar Auditorium (Host)</h2>
                 <p class="text-slate-400 text-sm leading-relaxed">
-                    Tampilkan di proyektor utama. Membuat room baru, QR Code besar, arena balap 200+ pemain, dan podium pemenang.
+                    Tampilkan di proyektor utama. Membuat Kode Room & QR Code, arena balap real-time 200+ siswa, dan podium juara.
                 </p>
                 <div class="mt-5 inline-flex items-center gap-2 text-cyber-cyan font-bold text-sm">
                     Buka Layar Proyektor <span>→</span>
@@ -146,13 +150,13 @@
                 <div class="w-14 h-14 rounded-2xl bg-cyber-cyan/20 border border-cyber-cyan/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
                     📱
                 </div>
-                <div class="text-xs font-mono text-cyber-gold uppercase tracking-wider mb-1">Untuk Siswa SMA</div>
+                <div class="text-xs font-mono text-cyber-gold uppercase tracking-wider mb-1">Untuk Siswa SMA/SMK</div>
                 <h2 class="text-2xl font-extrabold text-white mb-2">Masuk Sebagai Siswa (HP)</h2>
                 <p class="text-slate-400 text-sm leading-relaxed">
-                    Masukkan kode room 4 digit dari layar panggung, pilih avatar favorit, dan tap layar secepat mungkin!
+                    Masukkan kode room 4 karakter, pilih avatar favoritmu, dan taklukkan 10 soal acak dasar komputer!
                 </p>
                 <div class="mt-5 inline-flex items-center gap-2 text-cyber-gold font-bold text-sm">
-                    Join Balapan Sekarang <span>→</span>
+                    Join Kuis Balapan <span>→</span>
                 </div>
             </button>
         </div>
@@ -168,18 +172,18 @@
                 </button>
                 <div>
                     <h1 class="text-lg sm:text-2xl font-extrabold text-white flex flex-wrap items-center gap-2">
-                        <span>🚀 CYBERCAMPUS RACE</span>
+                        <span>🧠 STBHINNEKA QUIZ RACE</span>
                         <span id="host-status-badge" class="text-xs font-mono px-3 py-1 rounded-full bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40">
                             LOBBY MENUNGGU
                         </span>
                     </h1>
-                    <p id="host-conn-indicator" class="text-xs text-emerald-400 font-mono">🟢 Server Cloud Aktif • Siap menerima 250 siswa</p>
+                    <p id="host-conn-indicator" class="text-xs text-emerald-400 font-mono">🟢 Online • Terhubung ke Quiz Race Informatika</p>
                 </div>
             </div>
 
             <!-- Kontrol & Statistik Host -->
             <div class="flex flex-wrap items-center gap-2.5">
-                <div class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 flex items-center gap-2.5">
+                <div class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 flex items-center gap-2">
                     <span class="text-xs text-slate-400 font-mono">PESERTA:</span>
                     <span id="host-player-count" class="text-xl sm:text-2xl font-extrabold text-cyber-cyan font-mono">0</span>
                     <span class="text-xs text-slate-500 font-mono">/ 250</span>
@@ -190,15 +194,15 @@
                 </button>
 
                 <button id="btn-sim-bots" onclick="toggleBotSimulation()" class="px-3.5 py-2.5 rounded-xl bg-cyber-purple/20 hover:bg-cyber-purple/35 border border-cyber-purple text-cyber-purple font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer">
-                    <span>🤖</span> <span id="btn-sim-text">+30 Bot Simulasi</span>
+                    <span>🤖</span> <span id="btn-sim-text">+30 Bot Demo</span>
                 </button>
 
                 <button id="btn-start-race" onclick="startCountdown()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyber-cyan to-emerald-400 text-slate-950 font-extrabold text-sm sm:text-base hover:opacity-95 transition glow-cyan flex items-center gap-2 cursor-pointer">
-                    <span>🏁</span> MULAI BALAPAN!
+                    <span>🏁</span> MULAI KUIS BALAP!
                 </button>
 
                 <button id="btn-reset-race" onclick="resetRace()" class="hidden px-4 py-2.5 rounded-xl bg-cyber-gold text-slate-950 font-extrabold text-xs sm:text-sm hover:opacity-95 transition glow-gold cursor-pointer">
-                    🔄 Reset / Ronde Baru
+                    🔄 Ronde Baru
                 </button>
             </div>
         </header>
@@ -211,30 +215,30 @@
                 
                 <!-- Overlay Hitung Mundur 3.. 2.. 1.. GO! -->
                 <div id="countdown-overlay" class="hidden absolute inset-0 z-30 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center">
-                    <div class="text-cyber-cyan font-mono text-lg uppercase tracking-widest mb-2">Siapkan Jari di HP Kalian!</div>
+                    <div class="text-cyber-cyan font-mono text-lg uppercase tracking-widest mb-2">10 Soal Dasar Komputer Akan Muncul di HP!</div>
                     <div id="countdown-number" class="text-8xl sm:text-9xl font-black text-white animate-bounce">3</div>
                 </div>
 
                 <!-- Overlay Podium Pemenang -->
                 <div id="podium-overlay" class="hidden absolute inset-0 z-30 bg-slate-950/92 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center">
-                    <div class="text-cyber-gold font-mono text-sm uppercase tracking-widest mb-1">🏆 Balapan Selesai! 🏆</div>
-                    <h2 class="text-3xl sm:text-5xl font-black text-white mb-6">JUARA AUDITORIUM</h2>
+                    <div class="text-cyber-gold font-mono text-sm uppercase tracking-widest mb-1">🏆 Kuis Balapan Selesai! 🏆</div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white mb-6">TOP 3 JUARA AUDITORIUM</h2>
                     
                     <div id="podium-cards" class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl w-full mb-8">
                         <!-- Diisi via JS -->
                     </div>
 
                     <button onclick="resetRace()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyber-cyan to-cyber-gold text-slate-950 font-extrabold text-lg hover:scale-105 transition glow-cyan cursor-pointer">
-                        🔄 Mainkan Ronde Berikutnya (Tanpa Scan Ulang)
+                        🔄 Mainkan Ronde Berikutnya (Soal Diacak Ulang)
                     </button>
                 </div>
 
-                <!-- TAMPILAN 1: LOBBY PESERTA + QR CODE TENGAH BESAR JIKA MASIH SEPI -->
+                <!-- TAMPILAN 1: LOBBY PESERTA -->
                 <div id="host-lobby-area" class="flex-1 flex flex-col">
                     <div class="flex items-center justify-between mb-3">
                         <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                            <span>👥 Siswa yang Sudah Masuk</span>
-                            <span class="text-xs font-normal text-slate-400">(Otomatis muncul saat siswa klik Gabung)</span>
+                            <span>👥 Siswa yang Sudah Bergabung</span>
+                            <span class="text-xs font-normal text-slate-400">(Setiap siswa mendapat 10 soal acak dari 50 bank soal IT)</span>
                         </h2>
                         <button onclick="clearAllPlayers()" class="text-xs text-slate-400 hover:text-rose-400 font-mono underline cursor-pointer">
                             Kosongkan Lobby
@@ -249,18 +253,18 @@
                 <!-- TAMPILAN 2: ARENA BALAPAN LIVE (200+ PEMAIN BERSAMAAN) -->
                 <div id="host-race-area" class="hidden flex-1 flex flex-col">
                     <div class="flex items-center justify-between text-xs font-mono text-slate-300 mb-2 px-2">
-                        <span class="text-cyber-cyan font-bold">START (0%)</span>
-                        <span>25%</span>
-                        <span>50%</span>
-                        <span>75%</span>
-                        <span class="text-cyber-gold font-bold">FINISH (100%) 🏁</span>
+                        <span class="text-cyber-cyan font-bold">START (0 Soal)</span>
+                        <span>3 Soal</span>
+                        <span>5 Soal</span>
+                        <span>8 Soal</span>
+                        <span class="text-cyber-gold font-bold">FINISH (10/10 Benar) 🏁</span>
                     </div>
 
                     <div class="flex-1 relative bg-slate-950 border-2 border-slate-800 rounded-2xl overflow-hidden flex">
-                        <!-- Garis Milestone 25%, 50%, 75% -->
-                        <div class="absolute inset-y-0 left-[23%] border-l border-dashed border-slate-800 pointer-events-none"></div>
+                        <!-- Garis Milestone 30%, 50%, 80% -->
+                        <div class="absolute inset-y-0 left-[27.6%] border-l border-dashed border-slate-800 pointer-events-none"></div>
                         <div class="absolute inset-y-0 left-[46%] border-l border-dashed border-slate-700 pointer-events-none"></div>
-                        <div class="absolute inset-y-0 left-[69%] border-l border-dashed border-slate-800 pointer-events-none"></div>
+                        <div class="absolute inset-y-0 left-[73.6%] border-l border-dashed border-slate-800 pointer-events-none"></div>
 
                         <!-- Lintasan Pemain (92% lebar) -->
                         <div id="race-track-container" class="relative w-[92%] h-full overflow-hidden">
@@ -317,7 +321,7 @@
         </div>
     </section>
 
-    <!-- ==================== 3. TAMPILAN HP SISWA (PLAYER CONTROLLER VIEW) ==================== -->
+    <!-- ==================== 3. TAMPILAN HP SISWA (MOBILE CONTROLLER VIEW) ==================== -->
     <section id="view-player" class="hidden flex-1 flex flex-col max-w-md mx-auto w-full p-4">
         
         <!-- Header Kecil Pemain -->
@@ -326,16 +330,16 @@
                 ← Keluar
             </button>
             <div class="flex items-center gap-2 text-xs font-mono text-cyber-cyan">
-                <span id="player-conn-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span>CYBERCAMPUS RACE</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>STBHINNEKA QUIZ</span>
             </div>
         </div>
 
         <!-- SUB-VIEW 3A: FORM GABUNG ROOM -->
         <div id="player-join-form" class="flex-1 flex flex-col justify-center bg-cyber-card border border-slate-800 rounded-3xl p-6 shadow-2xl">
             <div class="text-center mb-5">
-                <div class="text-4xl mb-2">🎮</div>
-                <h2 class="text-2xl font-extrabold text-white">Masuk Arena Balap</h2>
+                <div class="text-4xl mb-2">🧠</div>
+                <h2 class="text-2xl font-extrabold text-white">Masuk Arena Kuis</h2>
                 <p class="text-xs text-slate-400">Ketik kode room 4 digit yang tampil di layar proyektor</p>
             </div>
 
@@ -354,9 +358,9 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-mono text-slate-300 uppercase mb-2">Pilih Avatar Jagoanmu (12 Karakter)</label>
-                    <div id="avatar-selector" class="grid grid-cols-6 gap-2">
-                        <!-- 12 Avatar diisi via JS -->
+                    <label class="block text-xs font-mono text-slate-300 uppercase mb-2">Pilih Avatar Jagoanmu (10 Karakter)</label>
+                    <div id="avatar-selector" class="grid grid-cols-5 gap-2">
+                        <!-- 10 Avatar diisi via JS -->
                     </div>
                 </div>
 
@@ -375,81 +379,80 @@
             <h2 id="player-wait-name" class="text-2xl font-black text-white mb-1">Nama Pemain</h2>
             <div class="text-xs font-mono text-cyber-gold mb-4">ROOM: <span id="player-wait-room">----</span></div>
             <p class="text-slate-300 text-sm mb-6 leading-relaxed">
-                Lihat ke layar besar proyektor! Avatarmu sudah masuk. Balapan akan otomatis dimulai begitu dosen menekan tombol Mulai!
+                Lihat ke layar besar proyektor! Avatarmu sudah masuk. Kuis akan otomatis dimulai begitu dosen menekan tombol Mulai!
             </p>
             <div class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left text-xs text-slate-300 space-y-1.5">
-                <div class="font-bold text-cyber-cyan">⚡ Cara Menang Cepat:</div>
-                <div>• Tap tombol <b>KIRI</b> dan <b>KANAN</b> secara bergantian!</div>
-                <div>• Setiap kelipatan <b>25%</b> akan muncul kuis IT singkat untuk <b>TURBO +15%</b>!</div>
+                <div class="font-bold text-cyber-cyan">⚡ Aturan Balapan Kuis:</div>
+                <div>• Kamu akan mendapat <b>10 pertanyaan acak</b> seputar dasar komputer.</div>
+                <div>• Setiap jawaban benar memajukan avatarmu <b>+10%</b>!</div>
+                <div>• Semakin banyak benar & semakin cepat selesai = <b>Juara Panggung!</b></div>
             </div>
         </div>
 
-        <!-- SUB-VIEW 3C: KONTROLER BALAPAN AKTIF DI HP -->
-        <div id="player-controller-screen" class="hidden flex-1 flex flex-col justify-between gap-3">
-            <!-- Status Progress Pemain -->
+        <!-- SUB-VIEW 3C: LAYAR KUIS AKTIF DI HP SISWA (10 PERTANYAAN ACAK) -->
+        <div id="player-quiz-screen" class="hidden flex-1 flex flex-col justify-between gap-3">
+            <!-- Header Progress Pribadi -->
             <div class="bg-cyber-card border border-slate-800 rounded-2xl p-4">
                 <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center gap-2">
-                        <span id="ctrl-avatar" class="text-2xl">🚀</span>
-                        <span id="ctrl-name" class="font-bold text-white text-sm">Pemain</span>
+                        <span id="quiz-player-avatar" class="text-2xl">🚀</span>
+                        <div>
+                            <div id="quiz-player-name" class="font-bold text-white text-sm leading-none">Pemain</div>
+                            <div id="quiz-score-badge" class="text-[11px] font-mono text-emerald-400 mt-0.5">Skor: 0 Benar (0%)</div>
+                        </div>
                     </div>
-                    <span id="ctrl-percent" class="font-mono font-black text-cyber-cyan text-xl">0%</span>
+                    <div class="text-right">
+                        <span class="text-[11px] font-mono text-slate-400 block">PERTANYAAN</span>
+                        <span id="quiz-question-counter" class="font-mono font-black text-cyber-gold text-lg">1 / 10</span>
+                    </div>
                 </div>
-                <div class="w-full h-3.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-                    <div id="ctrl-progress-bar" class="h-full bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-gold transition-all duration-150" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <!-- Event Pop-up Turbo Boost Kuis IT (Setiap kelipatan 25%) -->
-            <div id="quiz-boost-card" class="hidden bg-gradient-to-br from-cyber-purple/40 to-slate-900 border-2 border-cyber-gold rounded-2xl p-4 glow-gold">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-xs font-mono font-extrabold text-cyber-gold uppercase animate-pulse">⚡ TURBO QUIZ (+15% MELESAT!)</span>
-                    <span class="text-[11px] font-mono text-slate-300">Bonus Cepat!</span>
-                </div>
-                <p id="quiz-question" class="text-sm font-bold text-white mb-3">Pertanyaan...</p>
-                <div id="quiz-options" class="grid grid-cols-2 gap-2">
-                    <!-- Opsi jawaban diisi via JS -->
+                <!-- Progress Bar Progres Balapan (0% - 100%) -->
+                <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                    <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-gold transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
-            <!-- Dua Tombol Raksasa TAP KIRI & TAP KANAN -->
-            <div class="flex-1 grid grid-cols-2 gap-3 min-h-[250px]">
-                <button id="btn-tap-left" ontouchstart="handleTap('L', event)" onclick="handleTap('L', event)" 
-                    class="tap-btn rounded-3xl bg-gradient-to-b from-cyber-cyan/30 to-cyber-cyan/10 border-2 border-cyber-cyan flex flex-col items-center justify-center gap-2 active:bg-cyber-cyan/40 transition shadow-lg cursor-pointer">
-                    <span class="text-5xl">⚡</span>
-                    <span class="font-black text-xl text-cyber-cyan tracking-wider text-center leading-tight">TAP<br>KIRI</span>
-                    <span class="text-[11px] font-mono text-slate-300">Bergantian!</span>
-                </button>
+            <!-- Kartu Pertanyaan Utama -->
+            <div id="quiz-question-box" class="flex-1 bg-cyber-card border-2 border-slate-800 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-colors duration-200">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span id="quiz-category-tag" class="px-2.5 py-1 rounded-lg bg-cyber-purple/20 border border-cyber-purple/40 text-cyber-cyan text-[11px] font-mono uppercase">
+                            Dasar Komputer
+                        </span>
+                        <span id="quiz-feedback-pill" class="hidden px-3 py-1 rounded-full text-xs font-extrabold">
+                            BENAR! +10%
+                        </span>
+                    </div>
+                    <h3 id="quiz-question-text" class="text-lg sm:text-xl font-extrabold text-white leading-snug">
+                        Memuat pertanyaan...
+                    </h3>
+                </div>
 
-                <button id="btn-tap-right" ontouchstart="handleTap('R', event)" onclick="handleTap('R', event)" 
-                    class="tap-btn rounded-3xl bg-gradient-to-b from-cyber-orange/30 to-cyber-orange/10 border-2 border-cyber-orange flex flex-col items-center justify-center gap-2 active:bg-cyber-orange/40 transition shadow-lg cursor-pointer">
-                    <span class="text-5xl">🔥</span>
-                    <span class="font-black text-xl text-cyber-orange tracking-wider text-center leading-tight">TAP<br>KANAN</span>
-                    <span class="text-[11px] font-mono text-slate-300">Bergantian!</span>
-                </button>
-            </div>
-
-            <div class="text-center text-xs font-mono text-slate-400 py-1">
-                Tekan KIRI & KANAN bergantian untuk lari kencang!
+                <!-- 4 Tombol Pilihan Ganda Besar Ramah Sentuh HP -->
+                <div id="quiz-options-container" class="grid grid-cols-1 gap-2.5 mt-5">
+                    <!-- 4 Opsi A, B, C, D diisi via JS -->
+                </div>
             </div>
         </div>
 
         <!-- SUB-VIEW 3D: LAYAR HASIL AKHIR & PERINGKAT DI HP SISWA -->
         <div id="player-finish-screen" class="hidden flex-1 flex flex-col items-center justify-center bg-cyber-card border-2 border-cyber-gold/60 rounded-3xl p-6 text-center glow-gold">
             <div id="finish-trophy-icon" class="text-6xl mb-3">🏁</div>
-            <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">BALAPAN SELESAI!</h2>
+            <h2 class="text-2xl sm:text-3xl font-black text-white mb-1">10 SOAL SELESAI!</h2>
+            <p class="text-xs font-mono text-slate-400 mb-3">Hasilmu telah tercatat di layar auditorium</p>
             
-            <div class="w-full p-5 rounded-2xl bg-slate-950 border border-cyber-gold/40 my-3">
-                <div class="text-xs font-mono text-slate-400 uppercase mb-1">Peringkat Akhir Kamu</div>
-                <div id="player-final-rank" class="text-4xl sm:text-5xl font-black text-cyber-gold font-mono mb-2">#1</div>
-                <div id="player-final-score" class="text-sm font-mono text-cyber-cyan">Progres: 100%</div>
+            <div class="w-full p-5 rounded-2xl bg-slate-950 border border-cyber-gold/40 my-2">
+                <div class="text-xs font-mono text-slate-400 uppercase mb-1">Peringkat Real-Time Kamu</div>
+                <div id="player-final-rank" class="text-5xl font-black text-cyber-gold font-mono mb-2">#1</div>
+                <div id="player-final-score" class="text-base font-extrabold text-cyber-cyan">Skor: 10/10 Benar (100%)</div>
+                <div id="player-final-time" class="text-xs font-mono text-slate-400 mt-1">Waktu: 0.0 detik</div>
             </div>
 
-            <p id="finish-merch-msg" class="text-slate-300 text-sm mb-4 leading-relaxed">
-                Cek layar utama auditorium! Jika kamu masuk Top 3, segera angkat tangan dan maju ke panggung untuk mengambil merchandise!
+            <p id="finish-merch-msg" class="text-slate-300 text-sm my-4 leading-relaxed">
+                Pantau terus layar proyektor utama hingga seluruh peserta selesai! Jika kamu bertahan di Top 3, segera maju ke panggung untuk mengambil merchandise kampus!
             </p>
             <div class="text-xs font-mono text-slate-500">
-                Tetap di halaman ini jika dosen memulai ronde berikutnya...
+                Tetap di halaman ini jika dosen membuka ronde berikutnya...
             </div>
         </div>
     </section>
@@ -457,80 +460,120 @@
     <!-- ==================== SCRIPT UTAMA & FIREBASE REAL-TIME ==================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { 
-            getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, 
+            getFirestore, doc, setDoc, getDoc, updateDoc, 
             onSnapshot, collection, writeBatch 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // -------------------- 1. INISIALISASI FIREBASE & AUTENTIKASI WAJIB --------------------
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'cybercampus-race-v2';
-       const firebaseConfig = {
-    apiKey: "AIzaSyDSB2gioaeFMWYAM7znTh-dmoocG6dK0hE",
-    authDomain: "fungameinformatika.firebaseapp.com",
-    projectId: "fungameinformatika",
-    storageBucket: "fungameinformatika.firebasestorage.app",
-    messagingSenderId: "344467013658",
-    appId: "1:344467013658:web:c03668dfa2b4ce5990d1a3"
-  };
-
+        // -------------------- 1. KONFIGURASI FIREBASE SPESIFIK USER --------------------
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSB2gioaeFMWYAM7znTh-dmoocG6dK0hE",
+            authDomain: "fungameinformatika.firebaseapp.com",
+            projectId: "fungameinformatika",
+            storageBucket: "fungameinformatika.firebasestorage.app",
+            messagingSenderId: "344467013658",
+            appId: "1:344467013658:web:c03668dfa2b4ce5990d1a3"
+        };
 
         let app, auth, db;
         let currentUser = null;
         let authReadyPromise = null;
         let isCloudConnected = false;
 
-        // Path Firestore standar yang aman dan terbuka sesuai aturan platform
+        // Struktur Subkoleksi Firestore Terpisah agar 200+ siswa aman tanpa saling menimpa
         function getRoomDocRef(roomCode) {
-            return doc(db, 'artifacts', appId, 'public', 'data', 'cyber_race_rooms', roomCode);
+            return doc(db, 'cyber_quiz_rooms', roomCode);
         }
         function getPlayersCollectionRef(roomCode) {
-            return collection(db, 'artifacts', appId, 'public', 'data', `cyber_race_players_${roomCode}`);
+            return collection(db, 'cyber_quiz_rooms', roomCode, 'players');
         }
         function getPlayerDocRef(roomCode, playerId) {
-            return doc(db, 'artifacts', appId, 'public', 'data', `cyber_race_players_${roomCode}`, playerId);
+            return doc(db, 'cyber_quiz_rooms', roomCode, 'players', playerId);
         }
 
         async function initFirebaseAndAuth() {
             const dot = document.getElementById('conn-dot');
             const text = document.getElementById('conn-text');
 
-            if (!firebaseConfig) {
-                dot.className = 'w-3 h-3 rounded-full bg-rose-500 shrink-0';
-                text.textContent = '⚠️ Konfigurasi Cloud tidak ditemukan (Mode Offline).';
-                return false;
-            }
-
             try {
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
 
-                // Tunggu autentikasi selesai SEBELUM melakukan operasi baca/tulis Firestore
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    const cred = await signInWithCustomToken(auth, __initial_auth_token);
-                    currentUser = cred.user;
-                } else {
-                    const cred = await signInAnonymously(auth);
-                    currentUser = cred.user;
-                }
+                // Autentikasi anonim wajib sebelum membaca/menulis Firestore
+                const cred = await signInAnonymously(auth);
+                currentUser = cred.user;
 
                 isCloudConnected = true;
                 dot.className = 'w-3 h-3 rounded-full bg-emerald-400 animate-pulse shrink-0';
-                text.innerHTML = `<span class="text-emerald-400 font-bold">🟢 Terhubung ke Server Cloud</span> (Siap 200+ Peserta Real-Time)`;
+                text.innerHTML = `<span class="text-emerald-400 font-bold">🟢 Online • Terhubung ke fungameinformatika</span> (Siap 200+ Siswa)`;
                 return true;
             } catch (err) {
                 console.error("Firebase Auth/Init Error:", err);
                 dot.className = 'w-3 h-3 rounded-full bg-rose-500 shrink-0';
-                text.textContent = `❌ Gagal terhubung ke Cloud: ${err.message}. Pastikan internet aktif.`;
+                text.textContent = `❌ Gagal terhubung ke Firebase: ${err.message}`;
                 return false;
             }
         }
 
-        // Jalankan autentikasi segera saat halaman dimuat
         authReadyPromise = initFirebaseAndAuth();
 
-        // -------------------- 2. WEB AUDIO API (EFEK SUARA PANGGUNG) --------------------
+        // -------------------- 2. BANK SOAL 50 PERTANYAAN DASAR KOMPUTER --------------------
+        const QUESTION_BANK_50 = [
+            { cat: "Hardware", q: "Komponen yang dijuluki sebagai 'otak' utama pemroses instruksi pada komputer adalah...", opts: ["CPU (Processor)", "Harddisk", "Power Supply", "Monitor"], ans: 0 },
+            { cat: "Hardware", q: "Memori sementara yang menyimpan data aplikasi saat sedang dijalankan dan hilang saat listrik mati adalah...", opts: ["SSD", "RAM", "Flashdisk", "DVD-ROM"], ans: 1 },
+            { cat: "Hardware", q: "Perangkat keras yang berfungsi mengubah sinyal digital menjadi tampilan gambar di layar adalah...", opts: ["Sound Card", "LAN Card", "GPU / VGA Card", "Modem"], ans: 2 },
+            { cat: "Hardware", q: "Papan sirkuit utama tempat menempelnya CPU, RAM, dan komponen komputer lainnya disebut...", opts: ["Motherboard", "Breadboard", "Keyboard", "Touchpad"], ans: 0 },
+            { cat: "Hardware", q: "Manakah di bawah ini yang termasuk perangkat masukan (Input Device)?", opts: ["Printer", "Speaker", "Scanner", "Proyektor"], ans: 2 },
+            { cat: "Hardware", q: "Media penyimpanan modern yang jauh lebih cepat dari Harddisk karena tidak memakai piringan berputar adalah...", opts: ["Floppy Disk", "SSD (Solid State Drive)", "Compact Disc", "Magnetic Tape"], ans: 1 },
+            { cat: "Hardware", q: "Komponen yang bertugas menyuplai dan mengubah arus listrik AC menjadi DC untuk komponen PC adalah...", opts: ["Heatsink", "CMOS", "Power Supply (PSU)", "UPS"], ans: 2 },
+            { cat: "Hardware", q: "Port standar modern yang bentuknya simetris (bisa dicolok bolak-balik) untuk transfer data cepat adalah...", opts: ["USB Type-C", "VGA", "PS/2", "Serial Port"], ans: 0 },
+            { cat: "Sistem Bilangan", q: "Sistem bilangan berbasis 2 yang hanya mengenal angka 0 dan 1 disebut sistem bilangan...", opts: ["Desimal", "Oktal", "Biner", "Heksadesimal"], ans: 2 },
+            { cat: "Sistem Bilangan", q: "Satuan terkecil dari data digital dalam komputer (bernilai 0 atau 1) disebut...", opts: ["Byte", "Bit", "Pixel", "Hertz"], ans: 1 },
+            { cat: "Sistem Bilangan", q: "1 Byte terdiri dari berapa Bit?", opts: ["4 Bit", "8 Bit", "16 Bit", "32 Bit"], ans: 1 },
+            { cat: "Sistem Bilangan", q: "Angka desimal 5 jika diubah ke dalam bilangan biner adalah...", opts: ["101", "110", "011", "111"], ans: 0 },
+            { cat: "Sistem Bilangan", q: "Angka biner 1010 jika diubah menjadi bilangan desimal bernilai...", opts: ["8", "10", "12", "14"], ans: 1 },
+            { cat: "Sistem Bilangan", q: "Sistem bilangan Heksadesimal menggunakan 16 simbol, yaitu angka 0–9 dan huruf...", opts: ["A sampai E", "A sampai F", "A sampai G", "X sampai Z"], ans: 1 },
+            { cat: "Sistem Bilangan", q: "Urutan kapasitas penyimpanan data dari yang terkecil hingga terbesar yang benar adalah...", opts: ["KB - MB - GB - TB", "MB - KB - GB - TB", "KB - GB - MB - TB", "TB - GB - MB - KB"], ans: 0 },
+            { cat: "Sistem Operasi", q: "Perangkat lunak utama yang mengelola seluruh sumber daya hardware dan menjalankan aplikasi adalah...", opts: ["Browser", "Sistem Operasi (OS)", "Antivirus", "Compiler"], ans: 1 },
+            { cat: "Sistem Operasi", q: "Sistem operasi open-source yang memiliki maskot seekor penguin bernama Tux adalah...", opts: ["Windows", "macOS", "Linux", "iOS"], ans: 2 },
+            { cat: "Sistem Operasi", q: "Sistem operasi smartphone Android dikembangkan oleh Google dengan berbasis pada kernel...", opts: ["Windows NT", "Linux", "MS-DOS", "Symbian"], ans: 1 },
+            { cat: "Sistem Operasi", q: "Antarmuka berbasis teks di mana pengguna mengetikkan perintah secara langsung disebut...", opts: ["GUI", "CLI (Command Line Interface)", "BIOS", "API"], ans: 1 },
+            { cat: "Sistem Operasi", q: "Program dasar yang pertama kali berjalan saat komputer dinyalakan untuk mengecek hardware adalah...", opts: ["BIOS / UEFI", "Microsoft Word", "Task Manager", "Control Panel"], ans: 0 },
+            { cat: "Sistem Operasi", q: "Tombol kombinasi di Windows untuk membuka Task Manager secara langsung adalah...", opts: ["Ctrl + Alt + Del / Ctrl + Shift + Esc", "Alt + F4", "Win + D", "Ctrl + Z"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Alamat unik berupa deretan angka yang diberikan pada setiap perangkat dalam jaringan komputer disebut...", opts: ["MAC Address", "IP Address", "URL", "DNS"], ans: 1 },
+            { cat: "Jaringan & Internet", q: "Sistem yang menerjemahkan nama domain (seperti google.com) menjadi alamat IP adalah...", opts: ["DHCP", "HTTP", "DNS (Domain Name System)", "FTP"], ans: 2 },
+            { cat: "Jaringan & Internet", q: "Perangkat jaringan yang bertugas menghubungkan dua atau lebih jaringan berbeda serta meneruskan paket data adalah...", opts: ["Switch", "Router", "Repeater", "Access Point"], ans: 1 },
+            { cat: "Jaringan & Internet", q: "Kepanjangan dari LAN dalam jaringan komputer adalah...", opts: ["Large Area Network", "Local Area Network", "Long Access Node", "Link Area Network"], ans: 1 },
+            { cat: "Jaringan & Internet", q: "Protokol yang digunakan untuk mengamankan komunikasi web dengan enkripsi (ikon gembok di browser) adalah...", opts: ["HTTP", "FTP", "HTTPS", "SMTP"], ans: 2 },
+            { cat: "Jaringan & Internet", q: "Perintah dasar di terminal/CMD untuk mengecek koneksi ke suatu server atau alamat IP adalah...", opts: ["ping", "dir", "mkdir", "format"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Teknologi jaringan nirkabel jarak dekat yang umum dipakai untuk menghubungkan TWS atau speaker ke HP adalah...", opts: ["Infrared", "Bluetooth", "NFC", "Ethernet"], ans: 1 },
+            { cat: "Pemrograman & Algoritma", q: "Urutan langkah-langkah logis dan sistematis untuk menyelesaikan suatu masalah disebut...", opts: ["Algoritma", "Variabel", "Database", "Hardware"], ans: 0 },
+            { cat: "Pemrograman & Algoritma", q: "Kesalahan penulisan kode program yang menyebabkan program gagal dijalankan disebut...", opts: ["Feature", "Bug / Syntax Error", "Cache", "Cookie"], ans: 1 },
+            { cat: "Pemrograman & Algoritma", q: "Bahasa markup standar yang digunakan untuk membuat struktur dasar halaman website adalah...", opts: ["Python", "C++", "HTML", "SQL"], ans: 2 },
+            { cat: "Pemrograman & Algoritma", q: "Teknologi yang digunakan untuk mengatur tampilan, warna, dan tata letak halaman web adalah...", opts: ["CSS", "PHP", "MySQL", "Java"], ans: 0 },
+            { cat: "Pemrograman & Algoritma", q: "Dalam pemrograman, wadah untuk menyimpan nilai data yang dapat berubah-ubah disebut...", opts: ["Konstanta", "Variabel", "Looping", "Comment"], ans: 1 },
+            { cat: "Pemrograman & Algoritma", q: "Struktur kontrol yang digunakan untuk mengulang blok kode selama kondisi tertentu terpenuhi disebut...", opts: ["Percabangan (If-Else)", "Perulangan (Looping)", "Array", "Function"], ans: 1 },
+            { cat: "Pemrograman & Algoritma", q: "Tipe data yang hanya memiliki dua kemungkinan nilai, yaitu True (Benar) atau False (Salah), adalah...", opts: ["Integer", "String", "Boolean", "Float"], ans: 2 },
+            { cat: "Pemrograman & Algoritma", q: "Diagram visual yang menggunakan simbol bangun datar untuk menggambarkan alur algoritma disebut...", opts: ["Flowchart", "Mindmap", "Pie Chart", "Wireframe"], ans: 0 },
+            { cat: "Keamanan Siber", q: "Upaya penipuan untuk mencuri password atau data kartu kredit dengan menyamar sebagai pihak resmi lewat link palsu disebut...", opts: ["Phishing", "Coding", "Debugging", "Streaming"], ans: 0 },
+            { cat: "Keamanan Siber", q: "Perangkat lunak berbahaya seperti virus, trojan, dan ransomware secara umum disebut...", opts: ["Freeware", "Malware", "Shareware", "Firmware"], ans: 1 },
+            { cat: "Keamanan Siber", q: "Jenis serangan siber yang mengunci atau mengenkripsi file korban lalu meminta uang tebusan adalah...", opts: ["Spyware", "Adware", "Ransomware", "Worm"], ans: 2 },
+            { cat: "Keamanan Siber", q: "Sistem keamanan yang memantau dan menyaring lalu lintas jaringan masuk dan keluar berdasarkan aturan keamanan adalah...", opts: ["Firewall", "Defragmenter", "Compiler", "Taskbar"], ans: 0 },
+            { cat: "Keamanan Siber", q: "Lapisan keamanan tambahan setelah memasukkan password (misalnya kode OTP lewat SMS/aplikasi) disebut...", opts: ["2FA (Two-Factor Authentication)", "VPN", "Incognito", "Captcha"], ans: 0 },
+            { cat: "Keamanan Siber", q: "Proses mengubah teks biasa menjadi kode rahasia agar tidak bisa dibaca pihak yang tidak berwenang disebut...", opts: ["Kompresi", "Enkripsi", "Ekstraksi", "Format"], ans: 1 },
+            { cat: "AI & Teknologi Modern", q: "Cabang ilmu informatika yang membuat komputer mampu meniru kecerdasan manusia disebut...", opts: ["IoT", "Artificial Intelligence (AI)", "Blockchain", "Virtual Reality"], ans: 1 },
+            { cat: "AI & Teknologi Modern", q: "Konsep menghubungkan benda-benda fisik sehari-hari (lampu, AC, sensor) ke internet disebut...", opts: ["Internet of Things (IoT)", "Cloud Storage", "Big Data", "Metaverse"], ans: 0 },
+            { cat: "AI & Teknologi Modern", q: "Layanan penyimpanan dan komputasi melalui internet tanpa harus memiliki server fisik sendiri disebut...", opts: ["Localhost", "Cloud Computing", "Intranet", "Mainframe"], ans: 1 },
+            { cat: "Software & Data", q: "Perangkat lunak yang kode sumbernya terbuka dan bebas dipelajari, dimodifikasi, serta disebarkan disebut...", opts: ["Proprietary", "Open Source", "Trialware", "Bloatware"], ans: 1 },
+            { cat: "Software & Data", q: "Bahasa standar yang digunakan untuk mengelola dan mengambil data dari database relasional adalah...", opts: ["HTML", "CSS", "SQL", "XML"], ans: 2 },
+            { cat: "Software & Data", q: "Platform populer yang digunakan programmer untuk menyimpan kode dan berkolaborasi menggunakan Git adalah...", opts: ["GitHub", "Photoshop", "Canva", "WinRAR"], ans: 0 },
+            { cat: "Shortcut & Umum", q: "Kombinasi tombol shortcut yang paling umum digunakan untuk membatalkan tindakan terakhir (Undo) adalah...", opts: ["Ctrl + Y", "Ctrl + Z", "Ctrl + X", "Ctrl + A"], ans: 1 },
+            { cat: "Shortcut & Umum", q: "Ekstensi file standar untuk dokumen halaman web statis adalah...", opts: [".exe", ".html", ".mp4", ".xlsx"], ans: 1 }
+        ];
+
+        // -------------------- 3. WEB AUDIO API (EFEK SUARA) --------------------
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playTone(freq, type = 'sine', duration = 0.15, volume = 0.2) {
@@ -551,14 +594,13 @@
             playTone(final ? 880 : 440, 'triangle', final ? 0.45 : 0.18, 0.28);
         }
 
-        function playTapSound(side) {
-            playTone(side === 'L' ? 330 : 392, 'sine', 0.05, 0.1);
+        function playCorrectSound() {
+            playTone(523.25, 'triangle', 0.12, 0.22);
+            setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.25), 90);
         }
 
-        function playBoostSound() {
-            playTone(523.25, 'square', 0.1, 0.16);
-            setTimeout(() => playTone(659.25, 'square', 0.1, 0.16), 75);
-            setTimeout(() => playTone(783.99, 'square', 0.22, 0.22), 150);
+        function playWrongSound() {
+            playTone(170, 'sawtooth', 0.28, 0.22);
         }
 
         function playVictoryFanfare() {
@@ -566,8 +608,8 @@
             notes.forEach((n, idx) => setTimeout(() => playTone(n, 'triangle', 0.32, 0.25), idx * 140));
         }
 
-        // -------------------- 3. DATA AVATAR (12) & BANK KUIS IT (KELIPATAN 25%) --------------------
-        const AVATARS = ['🤖', '🚀', '🥷', '🐱', '👽', '🏎️', '🦊', '🐉', '🛸', '⚡', '🦄', '🦖'];
+        // -------------------- 4. DATA AVATAR (10) & BOT DEMO --------------------
+        const AVATARS = ['🤖', '🚀', '🥷', '🐱', '👽', '🏎️', '🦊', '🐉', '🛸', '⚡'];
 
         const BOT_NAMES = [
             'Rizky_XIIA', 'Nadia_Code', 'Fajar_Cyber', 'Siti_AI', 'Dimas_Dev',
@@ -578,18 +620,7 @@
             'Citra_Algo', 'Bayu_Node', 'Intan_CSS', 'Rama_Git', 'Salsa_React'
         ];
 
-        const IT_QUIZZES = [
-            { q: "Otak utama dari komputer disebut...", options: ["CPU", "RAM"], ans: 0 },
-            { q: "1 Byte sama dengan berapa Bit?", options: ["4 Bit", "8 Bit"], ans: 1 },
-            { q: "Sistem bilangan komputer hanya terdiri dari...", options: ["0 dan 1", "1 dan 2"], ans: 0 },
-            { q: "Kepanjangan dari AI adalah...", options: ["Auto Internet", "Artificial Intelligence"], ans: 1 },
-            { q: "Bahasa utama pembuat kerangka website adalah...", options: ["HTML", "SQL"], ans: 0 },
-            { q: "Maskot sistem operasi Linux adalah hewan...", options: ["Rubah", "Penguin"], ans: 1 },
-            { q: "Shortcut keyboard untuk Copy adalah...", options: ["Ctrl + C", "Ctrl + V"], ans: 0 },
-            { q: "Memori sementara saat aplikasi berjalan disebut...", options: ["Harddisk", "RAM"], ans: 1 }
-        ];
-
-        // -------------------- 4. STATE APLIKASI --------------------
+        // -------------------- 5. STATE APLIKASI --------------------
         let currentMode = null; // 'host' | 'player'
         let activeRoomCode = '';
         let roomStatus = 'lobby'; // 'lobby' | 'racing' | 'finished'
@@ -601,17 +632,19 @@
         let botInterval = null;
         let isBotActive = false;
 
-        // State Player
+        // State Player (Kuis 10 Soal Acak)
         let myPlayerId = null;
         let myPlayerName = '';
         let myAvatar = AVATARS[0];
-        let myProgress = 0;
-        let lastTapSide = null;
-        let triggeredMilestones = new Set(); // Melacak kelipatan 25%, 50%, 75%
-        let pendingSyncProgress = null;
-        let syncTimer = null;
+        let myQuestions = []; // 10 soal acak unik
+        let currentQuestionIndex = 0; // 0..9
+        let correctCount = 0; // 0..10 (tiap 1 benar = 10%)
+        let isQuizCompleted = false;
+        let isAnsweringLocked = false;
+        let raceStartTimestamp = 0;
+        let myFinishDurationMs = null;
 
-        // -------------------- 5. MODAL & NAVIGASI --------------------
+        // -------------------- 6. MODAL & NAVIGASI --------------------
         window.showModal = (title, message, icon = '⚡') => {
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalMessage').textContent = message;
@@ -652,8 +685,7 @@
             document.getElementById('view-landing').classList.remove('hidden');
         };
 
-        // -------------------- 6. LOGIKA HOST (PROYEKTOR AUDITORIUM) --------------------
-        // Kode 4 karakter tanpa huruf/angka ambigu (tanpa O, 0, I, 1)
+        // -------------------- 7. LOGIKA HOST (PROYEKTOR AUDITORIUM) --------------------
         function generateCleanRoomCode() {
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
             let code = '';
@@ -670,22 +702,20 @@
         async function setupHostRoom() {
             await authReadyPromise;
             if (!isCloudConnected || !currentUser) {
-                showModal('Koneksi Cloud Terputus', 'Tidak dapat membuat room karena belum terhubung ke server cloud. Periksa koneksi internet Anda.', '🌐');
+                showModal('Koneksi Firebase Gagal', 'Tidak dapat terhubung ke proyek fungameinformatika. Periksa internet dan aturan Firestore.', '🌐');
                 return;
             }
 
             activeRoomCode = generateCleanRoomCode();
             document.getElementById('host-room-code').textContent = activeRoomCode;
 
-            // Buat URL Join & QR Code menggunakan API qrserver yang cepat & andal
             const joinUrl = `${getBasePageUrl()}?room=${activeRoomCode}`;
             document.getElementById('host-short-url').textContent = joinUrl;
             const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=${encodeURIComponent(joinUrl)}`;
             document.getElementById('qr-code-img').src = qrApiUrl;
 
             try {
-                const roomRef = getRoomDocRef(activeRoomCode);
-                await setDoc(roomRef, {
+                await setDoc(getRoomDocRef(activeRoomCode), {
                     code: activeRoomCode,
                     status: 'lobby',
                     hostUid: currentUser.uid,
@@ -695,32 +725,25 @@
                 listenToRoomAsHost(activeRoomCode);
             } catch (err) {
                 console.error("Setup Host Room Error:", err);
-                showModal('Gagal Membuat Room', `Terjadi kesalahan saat menyimpan room: ${err.message}`, '❌');
+                showModal('Gagal Membuat Room', `Pastikan Firestore Database sudah dibuat dalam Test Mode. Detail: ${err.message}`, '❌');
             }
         }
 
         function listenToRoomAsHost(code) {
-            const roomRef = getRoomDocRef(code);
-            unsubRoom = onSnapshot(roomRef, (snap) => {
+            unsubRoom = onSnapshot(getRoomDocRef(code), (snap) => {
                 if (snap.exists()) {
                     roomStatus = snap.data().status;
                     updateHostUIByStatus();
                 }
-            }, (err) => {
-                console.error("Room listener error:", err);
-            });
+            }, (err) => console.error("Room listener error:", err));
 
-            // Dengarkan seluruh dokumen di subkoleksi pemain secara real-time
-            const playersCol = getPlayersCollectionRef(code);
-            unsubPlayers = onSnapshot(playersCol, (snapshot) => {
+            unsubPlayers = onSnapshot(getPlayersCollectionRef(code), (snapshot) => {
                 playersMap = {};
                 snapshot.forEach((docSnap) => {
                     playersMap[docSnap.id] = docSnap.data();
                 });
                 renderHostState();
-            }, (err) => {
-                console.error("Players listener error:", err);
-            });
+            }, (err) => console.error("Players listener error:", err));
         }
 
         function updateHostUIByStatus() {
@@ -740,7 +763,7 @@
                 btnStart.classList.remove('hidden');
                 btnReset.classList.add('hidden');
             } else if (roomStatus === 'racing') {
-                badge.textContent = 'BALAPAN BERLANGSUNG 🔥';
+                badge.textContent = 'KUIS BALAP AKTIF 🔥';
                 badge.className = 'text-xs font-mono px-3 py-1 rounded-full bg-cyber-orange/20 text-cyber-orange border border-cyber-orange/40 animate-pulse';
                 lobbyArea.classList.add('hidden');
                 raceArea.classList.remove('hidden');
@@ -752,6 +775,18 @@
                 badge.className = 'text-xs font-mono px-3 py-1 rounded-full bg-cyber-gold/20 text-cyber-gold border border-cyber-gold/40';
                 showPodiumWinners();
             }
+        }
+
+        // Fungsi pengurutan peringkat: Skor tertinggi -> Waktu selesai tercepat
+        function sortPlayersByRank(playersList) {
+            return [...playersList].sort((a, b) => {
+                const progA = a.progress || 0;
+                const progB = b.progress || 0;
+                if (progB !== progA) return progB - progA;
+                const timeA = a.finishedAt || Infinity;
+                const timeB = b.finishedAt || Infinity;
+                return timeA - timeB;
+            });
         }
 
         function renderHostState() {
@@ -766,7 +801,7 @@
                         <div class="text-5xl mb-3 animate-float">📲</div>
                         <p class="text-lg font-bold text-white mb-1">Menunggu Siswa Bergabung...</p>
                         <p class="text-sm text-slate-400 max-w-md mx-auto">
-                            Arahkan kamera HP ke QR Code di sebelah kanan, atau klik <b>"Test HP Siswa"</b> / <b>"+30 Bot Simulasi"</b> di atas!
+                            Scan QR Code di sebelah kanan menggunakan HP, atau klik <b>"Test HP Siswa"</b> / <b>"+30 Bot Demo"</b>!
                         </p>
                     </div>`;
             } else {
@@ -778,11 +813,7 @@
                 `).join('');
             }
 
-            // Urutkan pemain berdasarkan progres tertinggi, lalu waktu finis tercepat
-            const sortedPlayers = [...allPlayers].sort((a, b) => {
-                if (b.progress !== a.progress) return b.progress - a.progress;
-                return (a.finishedAt || Infinity) - (b.finishedAt || Infinity);
-            });
+            const sortedPlayers = sortPlayersByRank(allPlayers);
 
             // 2. Render Top 10 Leaderboard
             const lbContainer = document.getElementById('host-leaderboard');
@@ -792,6 +823,8 @@
                 lbContainer.innerHTML = sortedPlayers.slice(0, 10).map((p, idx) => {
                     const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`;
                     const barColor = idx === 0 ? 'bg-cyber-gold' : idx === 1 ? 'bg-cyber-cyan' : idx === 2 ? 'bg-cyber-orange' : 'bg-cyber-purple';
+                    const correctNum = Math.round((p.progress || 0) / 10);
+                    const statusIcon = p.isCompleted ? '✓' : '';
                     return `
                         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-2">
                             <div class="flex items-center justify-between text-xs mb-1">
@@ -800,22 +833,21 @@
                                     <span>${p.avatar}</span>
                                     <span class="font-bold text-white truncate">${escapeHtml(p.name)}</span>
                                 </div>
-                                <span class="font-mono font-bold text-cyber-cyan">${Math.min(100, Math.round(p.progress))}%</span>
+                                <span class="font-mono font-bold text-cyber-cyan shrink-0">${correctNum}/10 ${statusIcon}</span>
                             </div>
                             <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
-                                <div class="h-full ${barColor} transition-all duration-200" style="width: ${Math.min(100, p.progress)}%"></div>
+                                <div class="h-full ${barColor} transition-all duration-300" style="width: ${Math.min(100, p.progress || 0)}%"></div>
                             </div>
                         </div>
                     `;
                 }).join('');
             }
 
-            // 3. Render Lintasan Balap (Swarm Cerdas untuk 200+ Pemain)
+            // 3. Render Lintasan Balap (Swarm Multi-Lane untuk 200+ Siswa)
             if (roomStatus === 'racing' || roomStatus === 'finished') {
                 const track = document.getElementById('race-track-container');
                 const top15Ids = new Set(sortedPlayers.slice(0, 15).map(p => p.id));
 
-                // Hapus elemen pemain yang sudah tidak ada
                 Array.from(track.children).forEach(child => {
                     const pid = child.id.replace('racer-', '');
                     if (!playersMap[pid]) child.remove();
@@ -823,7 +855,6 @@
 
                 allPlayers.forEach((p, index) => {
                     let el = document.getElementById(`racer-${p.id}`);
-                    // Distribusikan 200+ pemain ke 45 jalur vertikal secara merata
                     const laneIndex = index % 45;
                     const topPercent = 3 + (laneIndex / 45) * 90;
                     const leftPercent = Math.min(94, Math.max(1, (p.progress || 0) * 0.93));
@@ -845,7 +876,6 @@
 
                     el.style.left = `${leftPercent}%`;
 
-                    // Jika pemain > 60, tampilkan badge nama hanya untuk Top 15 agar layar proyektor tetap bersih
                     const badgeEl = el.querySelector('.racer-badge');
                     if (badgeEl) {
                         if (allPlayers.length > 60 && !isLeader) {
@@ -859,10 +889,12 @@
                     el.style.zIndex = rank < 3 ? (40 - rank) : (isLeader ? 25 : 10);
                 });
 
-                // Otomatis akhiri balapan jika minimal 3 pemain sudah finis (atau semua pemain jika < 3)
-                const finishers = sortedPlayers.filter(p => (p.progress || 0) >= 100);
-                const targetFinishers = Math.min(3, allPlayers.length);
-                if (roomStatus === 'racing' && finishers.length >= targetFinishers && targetFinishers > 0) {
+                // Otomatis akhiri balapan jika minimal 3 pemain mencapai 100%, atau seluruh peserta sudah menyelesaikan 10 soal
+                const perfectFinishers = sortedPlayers.filter(p => (p.progress || 0) >= 100);
+                const allCompleted = allPlayers.length > 0 && allPlayers.every(p => p.isCompleted === true);
+                const targetPerfect = Math.min(3, allPlayers.length);
+
+                if (roomStatus === 'racing' && ((perfectFinishers.length >= targetPerfect && targetPerfect > 0) || allCompleted)) {
                     finishRaceAutomatically();
                 }
             }
@@ -870,7 +902,7 @@
 
         window.startCountdown = async () => {
             if (Object.keys(playersMap).length === 0) {
-                showModal('Lobby Masih Kosong', 'Tunggu siswa scan QR Code, atau klik "Test HP Siswa" / "+30 Bot Simulasi" terlebih dahulu!', '👥');
+                showModal('Lobby Masih Kosong', 'Tunggu siswa scan QR Code, atau klik "Test HP Siswa" / "+30 Bot Demo" terlebih dahulu!', '👥');
                 return;
             }
 
@@ -888,7 +920,7 @@
                     numEl.textContent = count;
                     playCountdownBeep(false);
                 } else if (count === 0) {
-                    numEl.textContent = 'GO! 🚀';
+                    numEl.textContent = 'GO! 🧠';
                     numEl.classList.add('text-cyber-cyan');
                     playCountdownBeep(true);
                 } else {
@@ -918,23 +950,24 @@
         }
 
         function showPodiumWinners() {
-            const sorted = Object.values(playersMap).sort((a, b) => {
-                if (b.progress !== a.progress) return b.progress - a.progress;
-                return (a.finishedAt || Infinity) - (b.finishedAt || Infinity);
-            });
-
+            const sorted = sortPlayersByRank(Object.values(playersMap));
             const top3 = sorted.slice(0, 3);
             const medals = ['🥇 JUARA 1', '🥈 JUARA 2', '🥉 JUARA 3'];
             const borders = ['border-cyber-gold glow-gold scale-105', 'border-cyber-cyan glow-cyan', 'border-cyber-orange'];
 
-            document.getElementById('podium-cards').innerHTML = top3.map((p, i) => `
-                <div class="bg-cyber-card border-2 ${borders[i]} rounded-2xl p-5 flex flex-col items-center">
-                    <span class="text-xs font-mono font-bold text-cyber-gold mb-2">${medals[i]}</span>
-                    <div class="text-5xl mb-2">${p.avatar}</div>
-                    <div class="text-lg font-black text-white truncate max-w-full">${escapeHtml(p.name)}</div>
-                    <div class="text-xs font-mono text-slate-400 mt-1">${Math.min(100, Math.round(p.progress))}% Selesai</div>
-                </div>
-            `).join('');
+            document.getElementById('podium-cards').innerHTML = top3.map((p, i) => {
+                const correctNum = Math.round((p.progress || 0) / 10);
+                const durSec = p.durationMs ? `${(p.durationMs / 1000).toFixed(1)} dtk` : 'Selesai';
+                return `
+                    <div class="bg-cyber-card border-2 ${borders[i]} rounded-2xl p-5 flex flex-col items-center">
+                        <span class="text-xs font-mono font-bold text-cyber-gold mb-2">${medals[i]}</span>
+                        <div class="text-5xl mb-2">${p.avatar}</div>
+                        <div class="text-lg font-black text-white truncate max-w-full">${escapeHtml(p.name)}</div>
+                        <div class="text-xs font-mono text-cyber-cyan mt-1">${correctNum}/10 Benar (${Math.round(p.progress || 0)}%)</div>
+                        <div class="text-[11px] font-mono text-slate-400 mt-0.5">${durSec}</div>
+                    </div>
+                `;
+            }).join('');
 
             document.getElementById('podium-overlay').classList.remove('hidden');
         }
@@ -942,13 +975,20 @@
         window.resetRace = async () => {
             if (botInterval) clearInterval(botInterval);
             isBotActive = false;
-            document.getElementById('btn-sim-text').textContent = '+30 Bot Simulasi';
+            document.getElementById('btn-sim-text').textContent = '+30 Bot Demo';
             document.getElementById('race-track-container').innerHTML = '';
 
             if (isCloudConnected && currentUser) {
                 const batch = writeBatch(db);
                 Object.keys(playersMap).forEach(pid => {
-                    batch.update(getPlayerDocRef(activeRoomCode, pid), { progress: 0, finishedAt: null });
+                    batch.update(getPlayerDocRef(activeRoomCode, pid), {
+                        progress: 0,
+                        correctCount: 0,
+                        answeredCount: 0,
+                        isCompleted: false,
+                        finishedAt: null,
+                        durationMs: null
+                    });
                 });
                 batch.update(getRoomDocRef(activeRoomCode), { status: 'lobby' });
                 await batch.commit();
@@ -958,7 +998,7 @@
         window.clearAllPlayers = async () => {
             if (botInterval) clearInterval(botInterval);
             isBotActive = false;
-            document.getElementById('btn-sim-text').textContent = '+30 Bot Simulasi';
+            document.getElementById('btn-sim-text').textContent = '+30 Bot Demo';
 
             if (isCloudConnected && currentUser) {
                 const batch = writeBatch(db);
@@ -969,7 +1009,6 @@
             }
         };
 
-        // Tombol Test Buka Tab Pemain di laptop yang sama
         window.openTestPlayerTab = () => {
             const joinUrl = `${getBasePageUrl()}?room=${activeRoomCode}`;
             window.open(joinUrl, '_blank');
@@ -986,12 +1025,12 @@
             showModal('Link Join Tersalin!', `Link untuk Room ${activeRoomCode} berhasil disalin:\n${url}`, '📋');
         };
 
-        // -------------------- 7. SIMULASI +30 BOT DEMO --------------------
+        // -------------------- 8. SIMULASI +30 BOT DEMO KUIS --------------------
         window.toggleBotSimulation = async () => {
             if (isBotActive) {
                 clearInterval(botInterval);
                 isBotActive = false;
-                document.getElementById('btn-sim-text').textContent = '+30 Bot Simulasi';
+                document.getElementById('btn-sim-text').textContent = '+30 Bot Demo';
                 return;
             }
 
@@ -1008,39 +1047,55 @@
                         name: baseName,
                         avatar: AVATARS[i % AVATARS.length],
                         progress: 0,
+                        correctCount: 0,
+                        answeredCount: 0,
+                        isCompleted: false,
                         finishedAt: null,
+                        durationMs: null,
                         isBot: true
                     });
                 }
                 await batch.commit();
             }
 
+            // Simulasikan bot menjawab 10 soal satu per satu secara acak tiap 1.4 detik
             botInterval = setInterval(async () => {
                 if (roomStatus !== 'racing') return;
 
-                const botIds = Object.keys(playersMap).filter(id => playersMap[id].isBot && (playersMap[id].progress || 0) < 100);
-                if (botIds.length === 0) return;
+                const activeBots = Object.values(playersMap).filter(p => p.isBot && !p.isCompleted);
+                if (activeBots.length === 0) return;
 
-                const sampleBots = botIds.sort(() => 0.5 - Math.random()).slice(0, 12);
+                const sampleBots = activeBots.sort(() => 0.5 - Math.random()).slice(0, 10);
                 const batch = writeBatch(db);
-                sampleBots.forEach(bid => {
-                    const boost = Math.random() * 6.5 + 2.5;
-                    const nextProg = Math.min(100, (playersMap[bid].progress || 0) + boost);
-                    batch.update(getPlayerDocRef(activeRoomCode, bid), {
+
+                sampleBots.forEach(bot => {
+                    const nextAnswered = (bot.answeredCount || 0) + 1;
+                    // Peluang bot menjawab benar 75%
+                    const isRight = Math.random() < 0.75;
+                    const nextCorrect = (bot.correctCount || 0) + (isRight ? 1 : 0);
+                    const nextProg = nextCorrect * 10;
+                    const done = nextAnswered >= 10;
+
+                    batch.update(getPlayerDocRef(activeRoomCode, bot.id), {
+                        answeredCount: nextAnswered,
+                        correctCount: nextCorrect,
                         progress: nextProg,
-                        finishedAt: nextProg >= 100 ? Date.now() : null
+                        isCompleted: done,
+                        finishedAt: done ? Date.now() : null,
+                        durationMs: done ? (nextAnswered * 1450 + Math.floor(Math.random() * 500)) : null
                     });
                 });
+
                 await batch.commit().catch(e => console.error("Bot tick error:", e));
-            }, 450);
+            }, 1400);
         };
 
-        // -------------------- 8. LOGIKA PLAYER (HP SISWA) --------------------
+        // -------------------- 9. LOGIKA PLAYER (HP SISWA - KUIS 10 SOAL ACAK) --------------------
         function renderAvatarSelector() {
             const container = document.getElementById('avatar-selector');
             container.innerHTML = AVATARS.map((av, idx) => `
                 <button type="button" onclick="selectPlayerAvatar('${av}', this)" 
-                    class="avatar-opt p-2 rounded-xl text-2xl border-2 transition cursor-pointer ${idx === 0 ? 'border-cyber-cyan bg-cyber-cyan/20 scale-105' : 'border-slate-800 bg-slate-950'}">
+                    class="avatar-opt p-2.5 rounded-xl text-2xl border-2 transition cursor-pointer ${idx === 0 ? 'border-cyber-cyan bg-cyber-cyan/20 scale-105' : 'border-slate-800 bg-slate-950'}">
                     ${av}
                 </button>
             `).join('');
@@ -1049,17 +1104,27 @@
         window.selectPlayerAvatar = (av, btnEl) => {
             myAvatar = av;
             document.querySelectorAll('.avatar-opt').forEach(el => {
-                el.className = 'avatar-opt p-2 rounded-xl text-2xl border-2 border-slate-800 bg-slate-950 transition cursor-pointer';
+                el.className = 'avatar-opt p-2.5 rounded-xl text-2xl border-2 border-slate-800 bg-slate-950 transition cursor-pointer';
             });
-            btnEl.className = 'avatar-opt p-2 rounded-xl text-2xl border-2 border-cyber-cyan bg-cyber-cyan/20 scale-105 transition cursor-pointer';
+            btnEl.className = 'avatar-opt p-2.5 rounded-xl text-2xl border-2 border-cyber-cyan bg-cyber-cyan/20 scale-105 transition cursor-pointer';
         };
+
+        // Mengambil 10 pertanyaan acak unik dari 50 bank soal (Fisher-Yates Shuffle)
+        function pick10RandomQuestions() {
+            const copy = [...QUESTION_BANK_50];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy.slice(0, 10);
+        }
 
         window.joinGameAsPlayer = async () => {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             await authReadyPromise;
 
             if (!isCloudConnected || !currentUser) {
-                showModal('Belum Terhubung ke Server', 'HP kamu belum terhubung ke server cloud. Pastikan koneksi internet aktif lalu muat ulang halaman.', '📡');
+                showModal('Belum Terhubung ke Firebase', 'HP kamu belum terhubung ke server cloud. Periksa koneksi internet lalu muat ulang halaman.', '📡');
                 return;
             }
 
@@ -1067,7 +1132,7 @@
             const nameInput = document.getElementById('input-player-name').value.trim();
 
             if (codeInput.length !== 4) {
-                showModal('Kode Room Harus 4 Karakter', 'Masukkan 4 huruf/angka kode room yang tampil di layar proyektor depan!', '🔑');
+                showModal('Kode Room Harus 4 Karakter', 'Masukkan 4 huruf/angka kode room yang tampil di layar proyektor!', '🔑');
                 return;
             }
             if (!nameInput) {
@@ -1080,11 +1145,10 @@
             btnJoin.textContent = 'MENGHUBUNGKAN... ⏳';
 
             try {
-                const roomRef = getRoomDocRef(codeInput);
-                const roomSnap = await getDoc(roomRef);
+                const roomSnap = await getDoc(getRoomDocRef(codeInput));
 
                 if (!roomSnap.exists()) {
-                    showModal('Room Tidak Ditemukan', `Kode room "${codeInput}" tidak ditemukan. Periksa kembali kode 4 karakter di layar proyektor!`, '❌');
+                    showModal('Room Tidak Ditemukan', `Kode room "${codeInput}" tidak ditemukan. Periksa kembali kode di layar proyektor!`, '❌');
                     btnJoin.disabled = false;
                     btnJoin.textContent = 'GABUNG SEKARANG 🚀';
                     return;
@@ -1092,18 +1156,19 @@
 
                 activeRoomCode = codeInput;
                 myPlayerName = nameInput;
-                // Gunakan kombinasi UID + random suffix agar aman jika dibuka di beberapa tab browser yang sama saat testing
                 myPlayerId = `${currentUser.uid}_${Math.random().toString(36).substring(2, 6)}`;
-                myProgress = 0;
-                triggeredMilestones.clear();
+                resetLocalQuizState();
 
-                // Tulis dokumen pemain ke subkoleksi terpisah agar tidak terjadi race condition
                 await setDoc(getPlayerDocRef(activeRoomCode, myPlayerId), {
                     id: myPlayerId,
                     name: myPlayerName,
                     avatar: myAvatar,
                     progress: 0,
+                    correctCount: 0,
+                    answeredCount: 0,
+                    isCompleted: false,
                     finishedAt: null,
+                    durationMs: null,
                     isBot: false,
                     joinedAt: Date.now()
                 });
@@ -1111,8 +1176,8 @@
                 document.getElementById('player-wait-avatar').textContent = myAvatar;
                 document.getElementById('player-wait-name').textContent = myPlayerName;
                 document.getElementById('player-wait-room').textContent = activeRoomCode;
-                document.getElementById('ctrl-avatar').textContent = myAvatar;
-                document.getElementById('ctrl-name').textContent = myPlayerName;
+                document.getElementById('quiz-player-avatar').textContent = myAvatar;
+                document.getElementById('quiz-player-name').textContent = myPlayerName;
 
                 listenToRoomAndRankAsPlayer(activeRoomCode);
             } catch (err) {
@@ -1123,51 +1188,65 @@
             }
         };
 
+        function resetLocalQuizState() {
+            myQuestions = pick10RandomQuestions();
+            currentQuestionIndex = 0;
+            correctCount = 0;
+            isQuizCompleted = false;
+            isAnsweringLocked = false;
+            raceStartTimestamp = 0;
+            myFinishDurationMs = null;
+            updateQuizProgressHeader();
+        }
+
         function listenToRoomAndRankAsPlayer(code) {
-            // 1. Dengarkan status room (lobby / racing / finished)
             unsubRoom = onSnapshot(getRoomDocRef(code), (snap) => {
                 if (!snap.exists()) return;
                 const status = snap.data().status;
+                const prevStatus = roomStatus;
                 roomStatus = status;
 
                 if (status === 'lobby') {
-                    myProgress = 0;
-                    triggeredMilestones.clear();
-                    document.getElementById('quiz-boost-card').classList.add('hidden');
-                    updatePlayerProgressUI();
+                    resetLocalQuizState();
                     switchPlayerSubView('waiting');
                 } else if (status === 'racing') {
-                    if (myProgress >= 100) {
+                    if (isQuizCompleted) {
                         switchPlayerSubView('finish');
                     } else {
-                        switchPlayerSubView('controller');
+                        if (raceStartTimestamp === 0 || prevStatus !== 'racing') {
+                            raceStartTimestamp = Date.now();
+                            renderCurrentQuestion();
+                        }
+                        switchPlayerSubView('quiz');
                     }
                 } else if (status === 'finished') {
                     switchPlayerSubView('finish');
                 }
             }, (err) => console.error("Player room listener error:", err));
 
-            // 2. Dengarkan koleksi pemain untuk menghitung peringkat akhir siswa secara akurat
+            // Dengarkan seluruh koleksi pemain untuk menghitung peringkat akhir secara real-time
             unsubPlayers = onSnapshot(getPlayersCollectionRef(code), (snapshot) => {
                 const list = [];
                 snapshot.forEach(d => list.push(d.data()));
-                list.sort((a, b) => {
-                    if ((b.progress || 0) !== (a.progress || 0)) return (b.progress || 0) - (a.progress || 0);
-                    return (a.finishedAt || Infinity) - (b.finishedAt || Infinity);
-                });
+                const sorted = sortPlayersByRank(list);
 
-                const myRankIndex = list.findIndex(p => p.id === myPlayerId);
+                const myRankIndex = sorted.findIndex(p => p.id === myPlayerId);
                 if (myRankIndex !== -1) {
                     const rankNum = myRankIndex + 1;
+                    const myProg = correctCount * 10;
                     document.getElementById('player-final-rank').textContent = `#${rankNum}`;
-                    document.getElementById('player-final-score').textContent = `Progres: ${Math.min(100, Math.round(myProgress))}% • dari ${list.length} Peserta`;
+                    document.getElementById('player-final-score').textContent = `Skor: ${correctCount}/10 Benar (${myProg}%)`;
+
+                    if (myFinishDurationMs !== null) {
+                        document.getElementById('player-final-time').textContent = `Waktu Penyelesaian: ${(myFinishDurationMs / 1000).toFixed(1)} detik`;
+                    }
 
                     if (rankNum <= 3) {
                         document.getElementById('finish-trophy-icon').textContent = rankNum === 1 ? '🥇' : rankNum === 2 ? '🥈' : '🥉';
-                        document.getElementById('finish-merch-msg').innerHTML = `<span class="text-cyber-gold font-bold">SELAMAT! Kamu masuk TOP 3!</span> Segera angkat tangan dan maju ke panggung mengambil merchandise kampus!`;
+                        document.getElementById('finish-merch-msg').innerHTML = `<span class="text-cyber-gold font-bold">LUAR BIASA! Kamu berada di TOP 3 (#${rankNum})!</span> Jika posisi bertahan hingga ronde berakhir, segera maju ke panggung mengambil merchandise kampus!`;
                     } else {
                         document.getElementById('finish-trophy-icon').textContent = '🏁';
-                        document.getElementById('finish-merch-msg').textContent = `Keren! Kamu finis di peringkat #${rankNum}. Siap-siap jika dosen membuka ronde berikutnya!`;
+                        document.getElementById('finish-merch-msg').textContent = `Keren! Kamu berada di peringkat #${rankNum} dari ${sorted.length} peserta. Bersiaplah jika dosen membuka ronde berikutnya!`;
                     }
                 }
             }, (err) => console.error("Player rank listener error:", err));
@@ -1176,118 +1255,124 @@
         function switchPlayerSubView(viewName) {
             document.getElementById('player-join-form').classList.add('hidden');
             document.getElementById('player-waiting-screen').classList.add('hidden');
-            document.getElementById('player-controller-screen').classList.add('hidden');
+            document.getElementById('player-quiz-screen').classList.add('hidden');
             document.getElementById('player-finish-screen').classList.add('hidden');
 
             if (viewName === 'waiting') document.getElementById('player-waiting-screen').classList.remove('hidden');
-            if (viewName === 'controller') document.getElementById('player-controller-screen').classList.remove('hidden');
+            if (viewName === 'quiz') document.getElementById('player-quiz-screen').classList.remove('hidden');
             if (viewName === 'finish') document.getElementById('player-finish-screen').classList.remove('hidden');
         }
 
-        // -------------------- 9. TAP CONTROLLER & KUIS TURBO KELIPATAN 25% --------------------
-        window.handleTap = (side, event) => {
-            if (event && event.cancelable) event.preventDefault();
-            if (roomStatus !== 'racing') return;
-            if (myProgress >= 100) return;
-
-            playTapSound(side);
-            if (navigator.vibrate) navigator.vibrate(15);
-
-            // Wajib tap bergantian Kiri-Kanan untuk kecepatan maksimal
-            const isAlternating = lastTapSide && lastTapSide !== side;
-            lastTapSide = side;
-            const step = isAlternating ? 2.1 : 0.7;
-
-            myProgress = Math.min(100, myProgress + step);
-            updatePlayerProgressUI();
-
-            // Kirim langsung jika mencapai 100%, selain itu throttle setiap 250ms
-            if (myProgress >= 100) {
-                playVictoryFanfare();
-                flushProgressSyncNow(100);
-                switchPlayerSubView('finish');
-                return;
-            } else {
-                queueProgressSync(myProgress);
-            }
-
-            // Cek Event Turbo Boost Kuis IT setiap kelipatan 25% (25%, 50%, 75%)
-            const milestones = [25, 50, 75];
-            for (const m of milestones) {
-                if (myProgress >= m && !triggeredMilestones.has(m)) {
-                    triggeredMilestones.add(m);
-                    triggerTurboQuiz();
-                    break;
-                }
-            }
-        };
-
-        function updatePlayerProgressUI() {
-            const pct = Math.min(100, Math.round(myProgress));
-            document.getElementById('ctrl-percent').textContent = `${pct}%`;
-            document.getElementById('ctrl-progress-bar').style.width = `${pct}%`;
+        function updateQuizProgressHeader() {
+            const pct = correctCount * 10;
+            const qNumDisplay = Math.min(10, currentQuestionIndex + 1);
+            document.getElementById('quiz-score-badge').textContent = `Skor: ${correctCount} Benar (${pct}%)`;
+            document.getElementById('quiz-question-counter').textContent = `${qNumDisplay} / 10`;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
         }
 
-        function queueProgressSync(progressVal) {
-            pendingSyncProgress = progressVal;
-            if (syncTimer) return;
+        function renderCurrentQuestion() {
+            if (currentQuestionIndex >= 10) return;
 
-            syncTimer = setTimeout(() => {
-                const valToSend = pendingSyncProgress;
-                syncTimer = null;
-                flushProgressSyncNow(valToSend);
-            }, 250);
-        }
+            const qObj = myQuestions[currentQuestionIndex];
+            const box = document.getElementById('quiz-question-box');
+            const feedbackPill = document.getElementById('quiz-feedback-pill');
 
-        async function flushProgressSyncNow(val) {
-            if (!isCloudConnected || !currentUser || !myPlayerId) return;
-            try {
-                await updateDoc(getPlayerDocRef(activeRoomCode, myPlayerId), {
-                    progress: val,
-                    finishedAt: val >= 100 ? Date.now() : null
-                });
-            } catch (err) {
-                console.error("Sync progress error:", err);
-            }
-        }
+            box.className = 'flex-1 bg-cyber-card border-2 border-slate-800 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-colors duration-200';
+            feedbackPill.classList.add('hidden');
 
-        function triggerTurboQuiz() {
-            const card = document.getElementById('quiz-boost-card');
-            if (!card.classList.contains('hidden')) return;
+            document.getElementById('quiz-category-tag').textContent = qObj.cat;
+            document.getElementById('quiz-question-text').textContent = qObj.q;
+            updateQuizProgressHeader();
 
-            const quiz = IT_QUIZZES[Math.floor(Math.random() * IT_QUIZZES.length)];
-            document.getElementById('quiz-question').textContent = quiz.q;
-
-            const optsContainer = document.getElementById('quiz-options');
-            optsContainer.innerHTML = quiz.options.map((opt, idx) => `
-                <button onclick="answerTurboQuiz(${idx === quiz.ans})" 
-                    class="py-3 px-3 rounded-xl bg-slate-950 hover:bg-cyber-gold/20 border-2 border-slate-700 hover:border-cyber-gold text-sm font-extrabold text-white transition active:scale-95 cursor-pointer">
-                    ${opt}
+            const letters = ['A', 'B', 'C', 'D'];
+            const optsContainer = document.getElementById('quiz-options-container');
+            optsContainer.innerHTML = qObj.opts.map((optText, idx) => `
+                <button type="button" id="opt-btn-${idx}" onclick="submitQuizAnswer(${idx})"
+                    class="w-full p-4 rounded-2xl bg-slate-950 hover:bg-slate-900 border-2 border-slate-700 hover:border-cyber-cyan text-left flex items-center gap-3 transition active:scale-98 cursor-pointer">
+                    <span class="w-8 h-8 rounded-xl bg-slate-800 text-cyber-cyan font-mono font-extrabold text-sm flex items-center justify-center shrink-0">
+                        ${letters[idx]}
+                    </span>
+                    <span class="text-sm sm:text-base font-bold text-white leading-snug">${escapeHtml(optText)}</span>
                 </button>
             `).join('');
 
-            card.classList.remove('hidden');
+            isAnsweringLocked = false;
         }
 
-        window.answerTurboQuiz = (isCorrect) => {
-            const card = document.getElementById('quiz-boost-card');
-            card.classList.add('hidden');
+        window.submitQuizAnswer = async (selectedIndex) => {
+            if (isAnsweringLocked || isQuizCompleted || roomStatus !== 'racing') return;
+            isAnsweringLocked = true;
+
+            const qObj = myQuestions[currentQuestionIndex];
+            const isCorrect = selectedIndex === qObj.ans;
+            const box = document.getElementById('quiz-question-box');
+            const feedbackPill = document.getElementById('quiz-feedback-pill');
+            const chosenBtn = document.getElementById(`opt-btn-${selectedIndex}`);
+            const correctBtn = document.getElementById(`opt-btn-${qObj.ans}`);
 
             if (isCorrect) {
-                playBoostSound();
-                if (navigator.vibrate) navigator.vibrate([40, 30, 90]);
-                myProgress = Math.min(100, myProgress + 15);
-                updatePlayerProgressUI();
-                // Langsung kirim update saat dapat Turbo Boost!
-                flushProgressSyncNow(myProgress);
+                playCorrectSound();
+                if (navigator.vibrate) navigator.vibrate(25);
+                correctCount++;
+                box.classList.remove('border-slate-800');
+                box.classList.add('border-emerald-400', 'bg-emerald-950/20');
+                chosenBtn.classList.remove('border-slate-700', 'bg-slate-950');
+                chosenBtn.classList.add('border-emerald-400', 'bg-emerald-500/20');
 
-                if (myProgress >= 100) {
-                    playVictoryFanfare();
-                    switchPlayerSubView('finish');
-                }
+                feedbackPill.textContent = '✓ BENAR! +10%';
+                feedbackPill.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/50';
             } else {
-                playTone(150, 'sawtooth', 0.25, 0.2);
+                playWrongSound();
+                if (navigator.vibrate) navigator.vibrate([50, 40, 50]);
+                box.classList.remove('border-slate-800');
+                box.classList.add('border-rose-500', 'bg-rose-950/20', 'animate-shake');
+                chosenBtn.classList.remove('border-slate-700', 'bg-slate-950');
+                chosenBtn.classList.add('border-rose-500', 'bg-rose-500/20');
+
+                // Sorot jawaban yang benar sekilas sebagai edukasi cepat
+                if (correctBtn) {
+                    correctBtn.classList.remove('border-slate-700');
+                    correctBtn.classList.add('border-emerald-400/70');
+                }
+
+                feedbackPill.textContent = '✗ KURANG TEPAT';
+                feedbackPill.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/50';
             }
+
+            const answeredSoFar = currentQuestionIndex + 1;
+            const newProgress = correctCount * 10;
+            const completedNow = answeredSoFar >= 10;
+
+            updateQuizProgressHeader();
+
+            // Sinkronisasi langsung ke Firestore agar karakter di layar auditorium bergerak maju real-time
+            if (isCloudConnected && currentUser && myPlayerId) {
+                const now = Date.now();
+                const duration = completedNow ? (now - (raceStartTimestamp || now)) : null;
+                if (completedNow) myFinishDurationMs = duration;
+
+                updateDoc(getPlayerDocRef(activeRoomCode, myPlayerId), {
+                    progress: newProgress,
+                    correctCount: correctCount,
+                    answeredCount: answeredSoFar,
+                    isCompleted: completedNow,
+                    finishedAt: completedNow ? now : null,
+                    durationMs: duration
+                }).catch(err => console.error("Update quiz progress error:", err));
+            }
+
+            // Jeda 0.6 detik agar siswa melihat umpan balik visual, lalu lanjut soal berikutnya atau layar selesai
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= 10) {
+                    isQuizCompleted = true;
+                    if (correctCount >= 8) playVictoryFanfare();
+                    switchPlayerSubView('finish');
+                } else {
+                    renderCurrentQuestion();
+                }
+            }, 600);
         };
 
         function escapeHtml(str) {
