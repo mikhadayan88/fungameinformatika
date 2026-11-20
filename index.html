@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz Race Prodi Informatika - Universitas Satya Terra Bhinneka</title>
+    <title>STBhinneka Quiz Race — Live Auditorium IT Quiz</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Canvas Confetti untuk perayaan pemenang -->
@@ -119,14 +119,14 @@
                 STBHINNEKA QUIZ RACE
             </h1>
             <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto">
-                Balapan kecerdasan IT untuk 200+ siswa di auditorium! Jawab <b>10 pertanyaan dasar komputer</b> secepat dan setepat mungkin untuk melesatkan avatarmu ke garis finis.
+                Balapan kecerdasan IT untuk siswa/i, Jawab <b>15 pertanyaan dasar komputer</b> dalam waktu <b>250 detik</b> secepat dan setepat mungkin menuju garis finis.
             </p>
         </div>
 
         <!-- Status Koneksi Firebase Real-Time -->
         <div id="connection-banner" class="mb-7 px-4 py-2.5 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center gap-3 text-xs sm:text-sm font-mono">
             <span id="conn-dot" class="w-3 h-3 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
-            <span id="conn-text" class="text-slate-300">Menghubungkan ke Firebase (fungameinformatika)...</span>
+            <span id="conn-text" class="text-slate-300">Menghubungkan ke Firebase (FunGameInformatika)...</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
@@ -138,7 +138,7 @@
                 <div class="text-xs font-mono text-cyber-cyan uppercase tracking-wider mb-1">Untuk Dosen / Panitia</div>
                 <h2 class="text-2xl font-extrabold text-white mb-2">Layar Auditorium (Host)</h2>
                 <p class="text-slate-400 text-sm leading-relaxed">
-                    Tampilkan di proyektor utama. Membuat Kode Room & QR Code, arena balap real-time 200+ siswa, dan podium juara.
+                    Tampilkan di proyektor utama. Membuat Kode Room & QR Code, arena balap real-time 200+ siswa/i, dan podium juara.
                 </p>
                 <div class="mt-5 inline-flex items-center gap-2 text-cyber-cyan font-bold text-sm">
                     Buka Layar Proyektor <span>→</span>
@@ -150,10 +150,10 @@
                 <div class="w-14 h-14 rounded-2xl bg-cyber-cyan/20 border border-cyber-cyan/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
                     📱
                 </div>
-                <div class="text-xs font-mono text-cyber-gold uppercase tracking-wider mb-1">Untuk Siswa SMA/SMK</div>
-                <h2 class="text-2xl font-extrabold text-white mb-2">Masuk Sebagai Siswa (HP)</h2>
+                <div class="text-xs font-mono text-cyber-gold uppercase tracking-wider mb-1">Untuk Siswa/i SMA</div>
+                <h2 class="text-2xl font-extrabold text-white mb-2">Masuk Sebagai Siswa/i (HP)</h2>
                 <p class="text-slate-400 text-sm leading-relaxed">
-                    Masukkan kode room 4 karakter, pilih avatar favoritmu, dan taklukkan 10 soal acak dasar komputer!
+                    Masukkan kode room 4 karakter, pilih avatar favoritmu, dan taklukkan 15 soal acak dasar komputer dalam 250 detik!
                 </p>
                 <div class="mt-5 inline-flex items-center gap-2 text-cyber-gold font-bold text-sm">
                     Join Kuis Balapan <span>→</span>
@@ -177,12 +177,18 @@
                             LOBBY MENUNGGU
                         </span>
                     </h1>
-                    <p id="host-conn-indicator" class="text-xs text-emerald-400 font-mono">🟢 Online • Terhubung ke Quiz Race Informatika</p>
+                    <p id="host-conn-indicator" class="text-xs text-emerald-400 font-mono">🟢 Online • Terhubung ke FunGameInformatika • 100 Bank Soal (15 Acak / 250d)</p>
                 </div>
             </div>
 
             <!-- Kontrol & Statistik Host -->
             <div class="flex flex-wrap items-center gap-2.5">
+                <!-- Timer Hitung Mundur 250 Detik di Layar Proyektor -->
+                <div id="host-timer-box" class="hidden px-3.5 py-2 rounded-xl bg-slate-950 border-2 border-cyber-cyan/60 flex items-center gap-2 transition-colors">
+                    <span class="text-xs text-slate-400 font-mono">⏱️ SISA WAKTU:</span>
+                    <span id="host-timer-display" class="text-xl sm:text-2xl font-black text-cyber-cyan font-mono">250d (04:10)</span>
+                </div>
+
                 <div class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 flex items-center gap-2">
                     <span class="text-xs text-slate-400 font-mono">PESERTA:</span>
                     <span id="host-player-count" class="text-xl sm:text-2xl font-extrabold text-cyber-cyan font-mono">0</span>
@@ -190,7 +196,7 @@
                 </div>
 
                 <button onclick="openTestPlayerTab()" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer" title="Buka tab simulasi HP siswa untuk tes koneksi">
-                    <span>📱</span> Test HP Siswa
+                    <span>📱</span> Test Tab Siswa/i
                 </button>
 
                 <button id="btn-sim-bots" onclick="toggleBotSimulation()" class="px-3.5 py-2.5 rounded-xl bg-cyber-purple/20 hover:bg-cyber-purple/35 border border-cyber-purple text-cyber-purple font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer">
@@ -198,7 +204,11 @@
                 </button>
 
                 <button id="btn-start-race" onclick="startCountdown()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyber-cyan to-emerald-400 text-slate-950 font-extrabold text-sm sm:text-base hover:opacity-95 transition glow-cyan flex items-center gap-2 cursor-pointer">
-                    <span>🏁</span> MULAI KUIS BALAP!
+                    <span>🏁</span> MULAI BALAPAN!
+                </button>
+
+                <button id="btn-finish-now" onclick="finishRaceAutomatically()" class="hidden px-4 py-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500 text-rose-300 font-extrabold text-xs sm:text-sm transition cursor-pointer">
+                    ⏹ Akhiri Balapan
                 </button>
 
                 <button id="btn-reset-race" onclick="resetRace()" class="hidden px-4 py-2.5 rounded-xl bg-cyber-gold text-slate-950 font-extrabold text-xs sm:text-sm hover:opacity-95 transition glow-gold cursor-pointer">
@@ -215,21 +225,23 @@
                 
                 <!-- Overlay Hitung Mundur 3.. 2.. 1.. GO! -->
                 <div id="countdown-overlay" class="hidden absolute inset-0 z-30 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center">
-                    <div class="text-cyber-cyan font-mono text-lg uppercase tracking-widest mb-2">10 Soal Dasar Komputer Akan Muncul di HP!</div>
+                    <div class="text-cyber-cyan font-mono text-lg uppercase tracking-widest mb-2">15 Soal Dasar Komputer (Waktu 250 Detik) Siap Muncul di HP!</div>
                     <div id="countdown-number" class="text-8xl sm:text-9xl font-black text-white animate-bounce">3</div>
                 </div>
 
                 <!-- Overlay Podium Pemenang -->
-                <div id="podium-overlay" class="hidden absolute inset-0 z-30 bg-slate-950/92 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center">
-                    <div class="text-cyber-gold font-mono text-sm uppercase tracking-widest mb-1">🏆 Kuis Balapan Selesai! 🏆</div>
-                    <h2 class="text-3xl sm:text-5xl font-black text-white mb-6">TOP 3 JUARA AUDITORIUM</h2>
+                <div id="podium-overlay" class="hidden absolute inset-0 z-30 bg-slate-950/94 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-6 text-center overflow-y-auto">
+                    <div class="text-cyber-gold font-mono text-xs sm:text-sm uppercase tracking-widest mb-1">🏆 Kuis Balapan Selesai! 🏆</div>
+                    <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 bg-clip-text text-transparent mb-4 sm:mb-6">
+                        TOP 10 PEMENANG KUIS!
+                    </h2>
                     
-                    <div id="podium-cards" class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl w-full mb-8">
-                        <!-- Diisi via JS -->
+                    <div id="podium-cards" class="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3.5 max-w-6xl w-full mb-5 sm:mb-7">
+                        <!-- 10 Kartu Pemenang diisi via JS -->
                     </div>
 
-                    <button onclick="resetRace()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyber-cyan to-cyber-gold text-slate-950 font-extrabold text-lg hover:scale-105 transition glow-cyan cursor-pointer">
-                        🔄 Mainkan Ronde Berikutnya (Soal Diacak Ulang)
+                    <button onclick="resetRace()" class="px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-cyber-cyan to-cyber-gold text-slate-950 font-extrabold text-base sm:text-lg hover:scale-105 transition glow-cyan cursor-pointer">
+                        🔄 Mainkan Ronde Berikutnya (15 Soal Diacak Ulang)
                     </button>
                 </div>
 
@@ -237,8 +249,8 @@
                 <div id="host-lobby-area" class="flex-1 flex flex-col">
                     <div class="flex items-center justify-between mb-3">
                         <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                            <span>👥 Siswa yang Sudah Bergabung</span>
-                            <span class="text-xs font-normal text-slate-400">(Setiap siswa mendapat 10 soal acak dari 50 bank soal IT)</span>
+                            <span>👥 Siswa/i yang Sudah Bergabung</span>
+                            <span class="text-xs font-normal text-slate-400">(Setiap siswa/i mendapat 15 soal acak dari 100 bank soal IT • Waktu 250 detik)</span>
                         </h2>
                         <button onclick="clearAllPlayers()" class="text-xs text-slate-400 hover:text-rose-400 font-mono underline cursor-pointer">
                             Kosongkan Lobby
@@ -254,17 +266,17 @@
                 <div id="host-race-area" class="hidden flex-1 flex flex-col">
                     <div class="flex items-center justify-between text-xs font-mono text-slate-300 mb-2 px-2">
                         <span class="text-cyber-cyan font-bold">START (0 Soal)</span>
-                        <span>3 Soal</span>
-                        <span>5 Soal</span>
+                        <span>4 Soal</span>
                         <span>8 Soal</span>
-                        <span class="text-cyber-gold font-bold">FINISH (10/10 Benar) 🏁</span>
+                        <span>12 Soal</span>
+                        <span class="text-cyber-gold font-bold">FINISH (15/15 Benar) 🏁</span>
                     </div>
 
                     <div class="flex-1 relative bg-slate-950 border-2 border-slate-800 rounded-2xl overflow-hidden flex">
-                        <!-- Garis Milestone 30%, 50%, 80% -->
-                        <div class="absolute inset-y-0 left-[27.6%] border-l border-dashed border-slate-800 pointer-events-none"></div>
+                        <!-- Garis Milestone 25%, 50%, 75% -->
+                        <div class="absolute inset-y-0 left-[23%] border-l border-dashed border-slate-800 pointer-events-none"></div>
                         <div class="absolute inset-y-0 left-[46%] border-l border-dashed border-slate-700 pointer-events-none"></div>
-                        <div class="absolute inset-y-0 left-[73.6%] border-l border-dashed border-slate-800 pointer-events-none"></div>
+                        <div class="absolute inset-y-0 left-[69%] border-l border-dashed border-slate-800 pointer-events-none"></div>
 
                         <!-- Lintasan Pemain (92% lebar) -->
                         <div id="race-track-container" class="relative w-[92%] h-full overflow-hidden">
@@ -313,7 +325,7 @@
                     </div>
                     <div id="host-leaderboard" class="flex-1 overflow-y-auto space-y-2 pr-1">
                         <div class="text-center text-slate-500 text-xs py-8">
-                            Menunggu siswa bergabung...
+                            Menunggu siswa/i bergabung...
                         </div>
                     </div>
                 </div>
@@ -383,16 +395,35 @@
             </p>
             <div class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left text-xs text-slate-300 space-y-1.5">
                 <div class="font-bold text-cyber-cyan">⚡ Aturan Balapan Kuis:</div>
-                <div>• Kamu akan mendapat <b>10 pertanyaan acak</b> seputar dasar komputer.</div>
-                <div>• Setiap jawaban benar memajukan avatarmu <b>+10%</b>!</div>
-                <div>• Semakin banyak benar & semakin cepat selesai = <b>Juara Panggung!</b></div>
+                <div>• Kamu akan mendapat <b>15 pertanyaan acak</b> seputar dasar komputer & teknologi.</div>
+                <div>• Batas waktu pengerjaan kuis adalah <b>250 detik (04:10)</b>.</div>
+                <div>• Semakin banyak jawaban benar & semakin cepat selesai = <b>Juara Panggung!</b></div>
             </div>
         </div>
 
-        <!-- SUB-VIEW 3C: LAYAR KUIS AKTIF DI HP SISWA (10 PERTANYAAN ACAK) -->
-        <div id="player-quiz-screen" class="hidden flex-1 flex flex-col justify-between gap-3">
+        <!-- SUB-VIEW 3C: LAYAR KUIS AKTIF DI HP SISWA (15 PERTANYAAN ACAK + TIMER 250 DETIK) -->
+        <div id="player-quiz-screen" class="hidden flex-1 flex flex-col justify-between gap-2.5">
+            
+            <!-- WIDGET TIMER HITUNG MUNDUR 250 DETIK MENCOLOK DI HP SISWA -->
+            <div id="player-timer-card" class="bg-slate-950 border-2 border-cyber-cyan rounded-2xl p-3 shadow-lg transition-all duration-300">
+                <div class="flex items-center justify-between mb-1.5">
+                    <div class="flex items-center gap-2">
+                        <span id="player-timer-icon" class="text-lg">⏱️</span>
+                        <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">Sisa Waktu Kuis</span>
+                    </div>
+                    <div class="flex items-baseline gap-1.5">
+                        <span id="player-timer-seconds" class="font-mono font-black text-2xl text-cyber-cyan">250d</span>
+                        <span id="player-timer-clock" class="font-mono font-bold text-sm text-slate-400">(04:10)</span>
+                    </div>
+                </div>
+                <!-- Progress Bar Waktu Menyusut -->
+                <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div id="player-timer-bar" class="h-full bg-cyber-cyan transition-all duration-500 ease-linear" style="width: 100%"></div>
+                </div>
+            </div>
+
             <!-- Header Progress Pribadi -->
-            <div class="bg-cyber-card border border-slate-800 rounded-2xl p-4">
+            <div class="bg-cyber-card border border-slate-800 rounded-2xl p-3.5">
                 <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center gap-2">
                         <span id="quiz-player-avatar" class="text-2xl">🚀</span>
@@ -402,34 +433,34 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <span class="text-[11px] font-mono text-slate-400 block">PERTANYAAN</span>
-                        <span id="quiz-question-counter" class="font-mono font-black text-cyber-gold text-lg">1 / 10</span>
+                        <span class="text-[10px] font-mono text-slate-400 block">PERTANYAAN</span>
+                        <span id="quiz-question-counter" class="font-mono font-black text-cyber-gold text-lg">1 / 15</span>
                     </div>
                 </div>
                 <!-- Progress Bar Progres Balapan (0% - 100%) -->
-                <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
                     <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-gold transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
             <!-- Kartu Pertanyaan Utama -->
-            <div id="quiz-question-box" class="flex-1 bg-cyber-card border-2 border-slate-800 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-colors duration-200">
+            <div id="quiz-question-box" class="flex-1 bg-cyber-card border-2 border-slate-800 rounded-3xl p-4 sm:p-5 flex flex-col justify-between shadow-xl transition-colors duration-200">
                 <div>
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center justify-between mb-2.5">
                         <span id="quiz-category-tag" class="px-2.5 py-1 rounded-lg bg-cyber-purple/20 border border-cyber-purple/40 text-cyber-cyan text-[11px] font-mono uppercase">
                             Dasar Komputer
                         </span>
                         <span id="quiz-feedback-pill" class="hidden px-3 py-1 rounded-full text-xs font-extrabold">
-                            BENAR! +10%
+                            BENAR!
                         </span>
                     </div>
-                    <h3 id="quiz-question-text" class="text-lg sm:text-xl font-extrabold text-white leading-snug">
+                    <h3 id="quiz-question-text" class="text-base sm:text-lg font-extrabold text-white leading-snug">
                         Memuat pertanyaan...
                     </h3>
                 </div>
 
                 <!-- 4 Tombol Pilihan Ganda Besar Ramah Sentuh HP -->
-                <div id="quiz-options-container" class="grid grid-cols-1 gap-2.5 mt-5">
+                <div id="quiz-options-container" class="grid grid-cols-1 gap-2 mt-4">
                     <!-- 4 Opsi A, B, C, D diisi via JS -->
                 </div>
             </div>
@@ -438,18 +469,18 @@
         <!-- SUB-VIEW 3D: LAYAR HASIL AKHIR & PERINGKAT DI HP SISWA -->
         <div id="player-finish-screen" class="hidden flex-1 flex flex-col items-center justify-center bg-cyber-card border-2 border-cyber-gold/60 rounded-3xl p-6 text-center glow-gold">
             <div id="finish-trophy-icon" class="text-6xl mb-3">🏁</div>
-            <h2 class="text-2xl sm:text-3xl font-black text-white mb-1">10 SOAL SELESAI!</h2>
-            <p class="text-xs font-mono text-slate-400 mb-3">Hasilmu telah tercatat di layar auditorium</p>
+            <h2 id="finish-main-title" class="text-2xl sm:text-3xl font-black text-white mb-1">15 SOAL SELESAI!</h2>
+            <p id="finish-sub-title" class="text-xs font-mono text-slate-400 mb-3">Hasilmu telah tercatat di layar auditorium</p>
             
             <div class="w-full p-5 rounded-2xl bg-slate-950 border border-cyber-gold/40 my-2">
                 <div class="text-xs font-mono text-slate-400 uppercase mb-1">Peringkat Real-Time Kamu</div>
                 <div id="player-final-rank" class="text-5xl font-black text-cyber-gold font-mono mb-2">#1</div>
-                <div id="player-final-score" class="text-base font-extrabold text-cyber-cyan">Skor: 10/10 Benar (100%)</div>
-                <div id="player-final-time" class="text-xs font-mono text-slate-400 mt-1">Waktu: 0.0 detik</div>
+                <div id="player-final-score" class="text-base font-extrabold text-cyber-cyan">Skor: 15/15 Benar (100%)</div>
+                <div id="player-final-time" class="text-xs font-mono text-slate-400 mt-1">Waktu Tempuh: 0.0 detik</div>
             </div>
 
             <p id="finish-merch-msg" class="text-slate-300 text-sm my-4 leading-relaxed">
-                Pantau terus layar proyektor utama hingga seluruh peserta selesai! Jika kamu bertahan di Top 3, segera maju ke panggung untuk mengambil merchandise kampus!
+                Pantau terus layar proyektor utama hingga seluruh peserta selesai! Jika kamu bertahan di Top 10, segera maju ke panggung untuk mengambil merchandise kampus!
             </p>
             <div class="text-xs font-mono text-slate-500">
                 Tetap di halaman ini jika dosen membuka ronde berikutnya...
@@ -476,6 +507,9 @@
             appId: "1:344467013658:web:c03668dfa2b4ce5990d1a3"
         };
 
+        const TOTAL_QUESTIONS_PER_PLAYER = 15;
+        const QUIZ_DURATION_SECONDS = 250;
+
         let app, auth, db;
         let currentUser = null;
         let authReadyPromise = null;
@@ -501,13 +535,12 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
 
-                // Autentikasi anonim wajib sebelum membaca/menulis Firestore
                 const cred = await signInAnonymously(auth);
                 currentUser = cred.user;
 
                 isCloudConnected = true;
                 dot.className = 'w-3 h-3 rounded-full bg-emerald-400 animate-pulse shrink-0';
-                text.innerHTML = `<span class="text-emerald-400 font-bold">🟢 Online • Terhubung ke fungameinformatika</span> (Siap 200+ Siswa)`;
+                text.innerHTML = `<span class="text-emerald-400 font-bold">🟢 Online • Terhubung ke fungameinformatika</span> (100 Bank Soal • 250 Detik)`;
                 return true;
             } catch (err) {
                 console.error("Firebase Auth/Init Error:", err);
@@ -519,58 +552,117 @@
 
         authReadyPromise = initFirebaseAndAuth();
 
-        // -------------------- 2. BANK SOAL 50 PERTANYAAN DASAR KOMPUTER --------------------
-        const QUESTION_BANK_50 = [
-            { cat: "Hardware", q: "Komponen yang dijuluki sebagai 'otak' utama pemroses instruksi pada komputer adalah...", opts: ["CPU (Processor)", "Harddisk", "Power Supply", "Monitor"], ans: 0 },
-            { cat: "Hardware", q: "Memori sementara yang menyimpan data aplikasi saat sedang dijalankan dan hilang saat listrik mati adalah...", opts: ["SSD", "RAM", "Flashdisk", "DVD-ROM"], ans: 1 },
-            { cat: "Hardware", q: "Perangkat keras yang berfungsi mengubah sinyal digital menjadi tampilan gambar di layar adalah...", opts: ["Sound Card", "LAN Card", "GPU / VGA Card", "Modem"], ans: 2 },
-            { cat: "Hardware", q: "Papan sirkuit utama tempat menempelnya CPU, RAM, dan komponen komputer lainnya disebut...", opts: ["Motherboard", "Breadboard", "Keyboard", "Touchpad"], ans: 0 },
-            { cat: "Hardware", q: "Manakah di bawah ini yang termasuk perangkat masukan (Input Device)?", opts: ["Printer", "Speaker", "Scanner", "Proyektor"], ans: 2 },
-            { cat: "Hardware", q: "Media penyimpanan modern yang jauh lebih cepat dari Harddisk karena tidak memakai piringan berputar adalah...", opts: ["Floppy Disk", "SSD (Solid State Drive)", "Compact Disc", "Magnetic Tape"], ans: 1 },
-            { cat: "Hardware", q: "Komponen yang bertugas menyuplai dan mengubah arus listrik AC menjadi DC untuk komponen PC adalah...", opts: ["Heatsink", "CMOS", "Power Supply (PSU)", "UPS"], ans: 2 },
-            { cat: "Hardware", q: "Port standar modern yang bentuknya simetris (bisa dicolok bolak-balik) untuk transfer data cepat adalah...", opts: ["USB Type-C", "VGA", "PS/2", "Serial Port"], ans: 0 },
-            { cat: "Sistem Bilangan", q: "Sistem bilangan berbasis 2 yang hanya mengenal angka 0 dan 1 disebut sistem bilangan...", opts: ["Desimal", "Oktal", "Biner", "Heksadesimal"], ans: 2 },
-            { cat: "Sistem Bilangan", q: "Satuan terkecil dari data digital dalam komputer (bernilai 0 atau 1) disebut...", opts: ["Byte", "Bit", "Pixel", "Hertz"], ans: 1 },
-            { cat: "Sistem Bilangan", q: "1 Byte terdiri dari berapa Bit?", opts: ["4 Bit", "8 Bit", "16 Bit", "32 Bit"], ans: 1 },
-            { cat: "Sistem Bilangan", q: "Angka desimal 5 jika diubah ke dalam bilangan biner adalah...", opts: ["101", "110", "011", "111"], ans: 0 },
-            { cat: "Sistem Bilangan", q: "Angka biner 1010 jika diubah menjadi bilangan desimal bernilai...", opts: ["8", "10", "12", "14"], ans: 1 },
-            { cat: "Sistem Bilangan", q: "Sistem bilangan Heksadesimal menggunakan 16 simbol, yaitu angka 0–9 dan huruf...", opts: ["A sampai E", "A sampai F", "A sampai G", "X sampai Z"], ans: 1 },
-            { cat: "Sistem Bilangan", q: "Urutan kapasitas penyimpanan data dari yang terkecil hingga terbesar yang benar adalah...", opts: ["KB - MB - GB - TB", "MB - KB - GB - TB", "KB - GB - MB - TB", "TB - GB - MB - KB"], ans: 0 },
-            { cat: "Sistem Operasi", q: "Perangkat lunak utama yang mengelola seluruh sumber daya hardware dan menjalankan aplikasi adalah...", opts: ["Browser", "Sistem Operasi (OS)", "Antivirus", "Compiler"], ans: 1 },
-            { cat: "Sistem Operasi", q: "Sistem operasi open-source yang memiliki maskot seekor penguin bernama Tux adalah...", opts: ["Windows", "macOS", "Linux", "iOS"], ans: 2 },
-            { cat: "Sistem Operasi", q: "Sistem operasi smartphone Android dikembangkan oleh Google dengan berbasis pada kernel...", opts: ["Windows NT", "Linux", "MS-DOS", "Symbian"], ans: 1 },
-            { cat: "Sistem Operasi", q: "Antarmuka berbasis teks di mana pengguna mengetikkan perintah secara langsung disebut...", opts: ["GUI", "CLI (Command Line Interface)", "BIOS", "API"], ans: 1 },
-            { cat: "Sistem Operasi", q: "Program dasar yang pertama kali berjalan saat komputer dinyalakan untuk mengecek hardware adalah...", opts: ["BIOS / UEFI", "Microsoft Word", "Task Manager", "Control Panel"], ans: 0 },
-            { cat: "Sistem Operasi", q: "Tombol kombinasi di Windows untuk membuka Task Manager secara langsung adalah...", opts: ["Ctrl + Alt + Del / Ctrl + Shift + Esc", "Alt + F4", "Win + D", "Ctrl + Z"], ans: 0 },
-            { cat: "Jaringan & Internet", q: "Alamat unik berupa deretan angka yang diberikan pada setiap perangkat dalam jaringan komputer disebut...", opts: ["MAC Address", "IP Address", "URL", "DNS"], ans: 1 },
-            { cat: "Jaringan & Internet", q: "Sistem yang menerjemahkan nama domain (seperti google.com) menjadi alamat IP adalah...", opts: ["DHCP", "HTTP", "DNS (Domain Name System)", "FTP"], ans: 2 },
-            { cat: "Jaringan & Internet", q: "Perangkat jaringan yang bertugas menghubungkan dua atau lebih jaringan berbeda serta meneruskan paket data adalah...", opts: ["Switch", "Router", "Repeater", "Access Point"], ans: 1 },
-            { cat: "Jaringan & Internet", q: "Kepanjangan dari LAN dalam jaringan komputer adalah...", opts: ["Large Area Network", "Local Area Network", "Long Access Node", "Link Area Network"], ans: 1 },
-            { cat: "Jaringan & Internet", q: "Protokol yang digunakan untuk mengamankan komunikasi web dengan enkripsi (ikon gembok di browser) adalah...", opts: ["HTTP", "FTP", "HTTPS", "SMTP"], ans: 2 },
-            { cat: "Jaringan & Internet", q: "Perintah dasar di terminal/CMD untuk mengecek koneksi ke suatu server atau alamat IP adalah...", opts: ["ping", "dir", "mkdir", "format"], ans: 0 },
-            { cat: "Jaringan & Internet", q: "Teknologi jaringan nirkabel jarak dekat yang umum dipakai untuk menghubungkan TWS atau speaker ke HP adalah...", opts: ["Infrared", "Bluetooth", "NFC", "Ethernet"], ans: 1 },
-            { cat: "Pemrograman & Algoritma", q: "Urutan langkah-langkah logis dan sistematis untuk menyelesaikan suatu masalah disebut...", opts: ["Algoritma", "Variabel", "Database", "Hardware"], ans: 0 },
-            { cat: "Pemrograman & Algoritma", q: "Kesalahan penulisan kode program yang menyebabkan program gagal dijalankan disebut...", opts: ["Feature", "Bug / Syntax Error", "Cache", "Cookie"], ans: 1 },
-            { cat: "Pemrograman & Algoritma", q: "Bahasa markup standar yang digunakan untuk membuat struktur dasar halaman website adalah...", opts: ["Python", "C++", "HTML", "SQL"], ans: 2 },
-            { cat: "Pemrograman & Algoritma", q: "Teknologi yang digunakan untuk mengatur tampilan, warna, dan tata letak halaman web adalah...", opts: ["CSS", "PHP", "MySQL", "Java"], ans: 0 },
-            { cat: "Pemrograman & Algoritma", q: "Dalam pemrograman, wadah untuk menyimpan nilai data yang dapat berubah-ubah disebut...", opts: ["Konstanta", "Variabel", "Looping", "Comment"], ans: 1 },
-            { cat: "Pemrograman & Algoritma", q: "Struktur kontrol yang digunakan untuk mengulang blok kode selama kondisi tertentu terpenuhi disebut...", opts: ["Percabangan (If-Else)", "Perulangan (Looping)", "Array", "Function"], ans: 1 },
-            { cat: "Pemrograman & Algoritma", q: "Tipe data yang hanya memiliki dua kemungkinan nilai, yaitu True (Benar) atau False (Salah), adalah...", opts: ["Integer", "String", "Boolean", "Float"], ans: 2 },
-            { cat: "Pemrograman & Algoritma", q: "Diagram visual yang menggunakan simbol bangun datar untuk menggambarkan alur algoritma disebut...", opts: ["Flowchart", "Mindmap", "Pie Chart", "Wireframe"], ans: 0 },
-            { cat: "Keamanan Siber", q: "Upaya penipuan untuk mencuri password atau data kartu kredit dengan menyamar sebagai pihak resmi lewat link palsu disebut...", opts: ["Phishing", "Coding", "Debugging", "Streaming"], ans: 0 },
-            { cat: "Keamanan Siber", q: "Perangkat lunak berbahaya seperti virus, trojan, dan ransomware secara umum disebut...", opts: ["Freeware", "Malware", "Shareware", "Firmware"], ans: 1 },
-            { cat: "Keamanan Siber", q: "Jenis serangan siber yang mengunci atau mengenkripsi file korban lalu meminta uang tebusan adalah...", opts: ["Spyware", "Adware", "Ransomware", "Worm"], ans: 2 },
-            { cat: "Keamanan Siber", q: "Sistem keamanan yang memantau dan menyaring lalu lintas jaringan masuk dan keluar berdasarkan aturan keamanan adalah...", opts: ["Firewall", "Defragmenter", "Compiler", "Taskbar"], ans: 0 },
-            { cat: "Keamanan Siber", q: "Lapisan keamanan tambahan setelah memasukkan password (misalnya kode OTP lewat SMS/aplikasi) disebut...", opts: ["2FA (Two-Factor Authentication)", "VPN", "Incognito", "Captcha"], ans: 0 },
-            { cat: "Keamanan Siber", q: "Proses mengubah teks biasa menjadi kode rahasia agar tidak bisa dibaca pihak yang tidak berwenang disebut...", opts: ["Kompresi", "Enkripsi", "Ekstraksi", "Format"], ans: 1 },
-            { cat: "AI & Teknologi Modern", q: "Cabang ilmu informatika yang membuat komputer mampu meniru kecerdasan manusia disebut...", opts: ["IoT", "Artificial Intelligence (AI)", "Blockchain", "Virtual Reality"], ans: 1 },
-            { cat: "AI & Teknologi Modern", q: "Konsep menghubungkan benda-benda fisik sehari-hari (lampu, AC, sensor) ke internet disebut...", opts: ["Internet of Things (IoT)", "Cloud Storage", "Big Data", "Metaverse"], ans: 0 },
-            { cat: "AI & Teknologi Modern", q: "Layanan penyimpanan dan komputasi melalui internet tanpa harus memiliki server fisik sendiri disebut...", opts: ["Localhost", "Cloud Computing", "Intranet", "Mainframe"], ans: 1 },
-            { cat: "Software & Data", q: "Perangkat lunak yang kode sumbernya terbuka dan bebas dipelajari, dimodifikasi, serta disebarkan disebut...", opts: ["Proprietary", "Open Source", "Trialware", "Bloatware"], ans: 1 },
-            { cat: "Software & Data", q: "Bahasa standar yang digunakan untuk mengelola dan mengambil data dari database relasional adalah...", opts: ["HTML", "CSS", "SQL", "XML"], ans: 2 },
-            { cat: "Software & Data", q: "Platform populer yang digunakan programmer untuk menyimpan kode dan berkolaborasi menggunakan Git adalah...", opts: ["GitHub", "Photoshop", "Canva", "WinRAR"], ans: 0 },
-            { cat: "Shortcut & Umum", q: "Kombinasi tombol shortcut yang paling umum digunakan untuk membatalkan tindakan terakhir (Undo) adalah...", opts: ["Ctrl + Y", "Ctrl + Z", "Ctrl + X", "Ctrl + A"], ans: 1 },
-            { cat: "Shortcut & Umum", q: "Ekstensi file standar untuk dokumen halaman web statis adalah...", opts: [".exe", ".html", ".mp4", ".xlsx"], ans: 1 }
+        // -------------------- 2. BANK SOAL 100 PERTANYAAN DASAR KOMPUTER & INFORMATIKA (SMA) --------------------
+        const QUESTION_BANK_100 = [
+            // === KATEGORI 1: HARDWARE, PERANGKAT DIGITAL & ARSITEKTUR KOMPUTER (20 SOAL) ===
+            { cat: "Hardware & Arsitektur", q: "Saat kamu membuka banyak tab browser sekaligus sambil bermain game, laptop terasa lemot. Komponen apa yang kapasitasnya paling berperan menampung aplikasi yang sedang aktif?", opts: ["RAM", "Power Supply", "Sound Card", "DVD-ROM"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Mengapa laptop modern yang memakai SSD bisa menyala (booting) dalam 5 detik, jauh lebih cepat daripada Harddisk (HDD) lama?", opts: ["SSD tidak memakai piringan berputar mekanik melainkan chip memori flash", "SSD memiliki kipas pendingin lebih besar", "SSD menggunakan kabel HDMI", "SSD menyimpan data di internet"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Komponen yang dijuluki 'otak' komputer karena mengeksekusi instruksi logika dan perhitungan program adalah...", opts: ["CPU (Processor)", "Motherboard", "Heatsink", "UPS"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Saat render video 4K atau bermain game dengan grafis realistis, komponen mana yang bekerja paling berat menghitung jutaan piksel secara paralel?", opts: ["GPU (Graphics Processing Unit)", "LAN Card", "CMOS Battery", "Webcam"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Layar smartphone gaming sering mempromosikan 'Refresh Rate 120Hz'. Apa maksud angka 120Hz tersebut?", opts: ["Layar memperbarui gambar sebanyak 120 kali setiap detik sehingga animasi mulus", "Baterai tahan 120 jam", "Layar memiliki 120 warna", "Suara speaker mencapai 120 desibel"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Sensor pada smartphone yang otomatis memutar tampilan layar menjadi horizontal (landscape) saat kamu memiringkan HP untuk menonton YouTube adalah...", opts: ["Gyroscope & Accelerometer", "Sensor Sidik Jari", "Barometer", "Sensor Proximity"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Ketika kamu menelepon dan menempelkan HP ke telinga, layar otomatis mati agar tidak tersentuh pipi. Sensor apa yang bekerja?", opts: ["Proximity Sensor", "GPS Sensor", "Magnetometer", "NFC Reader"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Papan sirkuit utama di dalam PC atau laptop yang menghubungkan CPU, RAM, SSD, dan port USB menjadi satu sistem adalah...", opts: ["Motherboard", "Breadboard", "Router", "Modem"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Kabel standar modern pada laptop dan HP baru yang bentuk ujungnya simetris (bisa dicolok bolak-balik) serta bisa mengisi daya sekaligus transfer data adalah...", opts: ["USB Type-C", "Kabel VGA", "Port PS/2", "Kabel Serial"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Jika kamu ingin menghubungkan laptop ke proyektor auditorium agar gambar DAN suara terkirim lewat satu kabel, port mana yang paling tepat?", opts: ["HDMI", "VGA", "Audio Jack 3.5mm", "RJ-45 LAN"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Perangkat yang mengubah arus listrik AC dari stopkontak dinding menjadi arus DC bertegangan rendah untuk seluruh komponen PC adalah...", opts: ["Power Supply Unit (PSU)", "VGA Card", "Harddisk", "Processor"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Satuan 'GHz' (Gigahertz) pada spesifikasi prosesor (misalnya 3.5 GHz) menunjukkan...", opts: ["Kecepatan siklus clock prosesor memproses instruksi per detik", "Kapasitas penyimpanan foto", "Ukuran fisik prosesor dalam milimeter", "Jumlah inti baterai"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Resolusi layar Full HD (1920 x 1080) berarti tampilan layar tersusun dari...", opts: ["1920 piksel mendatar dan 1080 piksel menurun", "1920 warna dan 1080 cahaya", "1920 MB memori layar", "1080 bingkai per menit"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Manakah kelompok perangkat yang semuanya berfungsi sebagai perangkat masukan (Input Device)?", opts: ["Keyboard, Mouse, Mikrofon, Scanner", "Monitor, Printer, Speaker", "CPU, RAM, SSD", "Proyektor, Headset, Plotter"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Mengapa prosesor pada komputer atau laptop selalu dipasangi heatsink dan kipas (atau liquid cooler)?", opts: ["Mencegah overheating agar performa prosesor tidak melambat atau rusak", "Menambah kapasitas RAM", "Mempercepat koneksi Wi-Fi", "Menghasilkan listrik cadangan"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Chip NFC (Near Field Communication) di smartphone anak SMA paling sering digunakan dalam kehidupan sehari-hari untuk...", opts: ["Mengecek dan mengisi saldo kartu uang elektronik (e-Money/Flazz)", "Menangkap sinyal satelit TV", "Memperbesar zoom kamera", "Mendinginkan baterai"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Konsep lampu kamar atau AC yang bisa dinyalakan dari HP saat kamu masih di sekolah termasuk penerapan teknologi...", opts: ["Internet of Things (IoT)", "Blockchain", "Virtual Reality", "Defragmenter"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Perangkat yang menyediakan daya baterai cadangan sementara saat listrik PLN padam mendadak agar PC tidak langsung mati adalah...", opts: ["UPS (Uninterruptible Power Supply)", "Router", "Switch", "Modem"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Apa fungsi utama Thermal Paste (pasta pendingin) yang dioleskan di antara permukaan CPU dan heatsink?", opts: ["Menghantarkan panas dari CPU ke heatsink secara maksimal", "Merekatkan CPU secara permanen", "Menambah kecepatan internet", "Membersihkan virus di BIOS"], ans: 0 },
+            { cat: "Hardware & Arsitektur", q: "Kamera smartphone 50 Megapixel artinya setiap foto mentah yang dihasilkan tersusun dari sekitar...", opts: ["50 juta titik warna (piksel)", "50 gigabyte ukuran file", "50 kali pembesaran optik", "50 foto per detik"], ans: 0 },
+
+            // === KATEGORI 2: SISTEM OPERASI, FILE & APLIKASI (20 SOAL) ===
+            { cat: "Sistem Operasi & File", q: "Tanpa perangkat lunak ini, laptop barumu hanya akan menampilkan layar hitam berisi teks teknis dan tidak bisa menjalankan aplikasi. Apa nama perangkat lunak tersebut?", opts: ["Sistem Operasi (Operating System)", "Antivirus", "Microsoft Excel", "WinRAR"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Sistem operasi smartphone Android yang dipakai ratusan juta orang sebenarnya dibangun di atas kernel sistem operasi open-source bernama...", opts: ["Linux", "Windows NT", "macOS", "MS-DOS"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Kamu menerima file tugas kelompok bernama 'Laporan_IPA.zip'. Apa fungsi format file .zip tersebut?", opts: ["Menggabungkan dan memampatkan ukuran beberapa file agar lebih kecil saat dikirim", "Mengubah dokumen menjadi video", "Menjalankan program instalasi Windows", "Menghapus virus secara otomatis"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Mengapa file desain atau foto dengan format .PNG sering dipilih daripada .JPG untuk membuat stiker atau logo?", opts: ["Format PNG mendukung latar belakang transparan (alpha channel)", "Format PNG selalu berukuran lebih kecil dari teks", "Format JPG tidak bisa dibuka di HP", "Format PNG bisa bergerak seperti video"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Apa keuntungan utama menyimpan tugas sekolah di Cloud Storage (seperti Google Drive atau OneDrive) dibanding hanya di flashdisk?", opts: ["Bisa diakses dari perangkat mana saja lewat internet dan aman jika flashdisk hilang", "Tidak membutuhkan akun sama sekali", "Bisa dijalankan tanpa listrik maupun internet", "Otomatis mengerjakan tugas sendiri"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Ketika sebuah aplikasi di Windows mengalami 'Not Responding' (hang), kombinasi tombol shortcut tercepat untuk membuka Task Manager dan menutup paksa aplikasi adalah...", opts: ["Ctrl + Shift + Esc", "Ctrl + C", "Win + E", "Alt + Tab"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Perangkat lunak 'Open Source' (seperti Linux, Blender, atau Python) memiliki ciri khas utama yaitu...", opts: ["Kode sumbernya terbuka sehingga bebas dipelajari, dimodifikasi, dan dikembangkan komunitas", "Hanya boleh dipakai oleh perusahaan besar", "Wajib membayar biaya langganan setiap bulan", "Tidak bisa berjalan di laptop biasa"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Apa fungsi 'Clipboard' pada sistem operasi komputer maupun smartphone?", opts: ["Menyimpan sementara teks atau gambar yang baru saja di-Copy/Cut sebelum di-Paste", "Menghapus file sampah secara permanen", "Mengatur kecerahan layar otomatis", "Merekam layar saat bermain game"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Mengapa menginstal aplikasi Android dari file .APK sembarangan di luar Google Play Store sangat berisiko?", opts: ["File APK tidak resmi bisa disisipi malware pencuri data dan password", "File APK akan merusak layar sentuh", "File APK membuat baterai bertambah kapasitasnya", "File APK otomatis menghapus foto di galeri"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Mode 'Incognito' atau 'Private Browsing' pada browser (Chrome/Safari) sebenarnya berfungsi untuk...", opts: ["Tidak menyimpan riwayat penjelajahan, cookie, dan data form di perangkat lokal setelah tab ditutup", "Membuat internet menjadi 10x lebih cepat", "Menyembunyikan identitasmu dari penyedia layanan internet (ISP) dan situs web", "Memblokir semua iklan secara otomatis"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Saat kamu menghapus file di komputer dan masuk ke 'Recycle Bin' (atau Trash), apakah ruang penyimpanan langsung bertambah?", opts: ["Belum, ruang baru benar-benar kosong setelah Recycle Bin dikosongkan", "Ya, file langsung hilang dari SSD saat itu juga", "Ya, file otomatis terkirim ke email", "Tidak, file berubah menjadi aplikasi"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Program kecil pada sistem operasi yang bertugas menjadi penerjemah agar Windows/macOS bisa mengenali printer atau kartu grafis baru disebut...", opts: ["Device Driver", "Firewall", "Screensaver", "Compiler"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Jika kamu punya video berukuran 2,5 GB dan flashdiskmu memiliki ruang kosong 2.000 MB, apakah video tersebut muat?", opts: ["Tidak muat, karena 2,5 GB setara dengan sekitar 2.560 MB", "Muat, karena 2.000 MB lebih besar dari 2,5 GB", "Muat, karena video otomatis terkompresi", "Tidak muat, karena flashdisk hanya untuk dokumen"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Antarmuka komputer di mana pengguna berinteraksi lewat ikon, jendela, dan tombol visual (bukan mengetik perintah teks) disebut...", opts: ["GUI (Graphical User Interface)", "CLI (Command Line Interface)", "BIOS", "Kernel"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Apa fungsi 'Cache' yang sering menumpuk di aplikasi media sosial (TikTok/Instagram) di HP kamu?", opts: ["Menyimpan sementara gambar/video agar aplikasi terbuka lebih cepat tanpa mengunduh ulang", "Menyimpan password akun bank", "Menghapus kontak telepon", "Mengatur volume nada dering"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Ekstensi file '.pdf' (Portable Document Format) sangat populer untuk mengirim CV atau makalah karena...", opts: ["Tampilan tata letak dan font dokumen tetap rapi dan tidak berantakan di perangkat mana pun", "Ukurannya selalu 1 KB", "Bisa langsung dijalankan sebagai game", "Hanya bisa dibuka di komputer Apple"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Kemampuan sistem operasi modern untuk menjalankan Spotify, browser, dan aplikasi chat secara bersamaan disebut...", opts: ["Multitasking", "Overclocking", "Defragmenting", "Rendering"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Apa manfaat utama melakukan 'Software Update' (pembaruan sistem operasi/aplikasi) secara rutin?", opts: ["Menutup celah keamanan (bug) dari serangan hacker serta meningkatkan stabilitas", "Membuat layar HP menjadi lebih lebar", "Menambah kapasitas penyimpanan fisik", "Mengubah warna casing HP"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "Di aplikasi pengolah angka (Excel/Google Sheets), simbol apa yang wajib diketik pertama kali saat ingin membuat rumus perhitungan?", opts: ["Tanda sama dengan (=)", "Tanda pagar (#)", "Tanda tanya (?)", "Tanda seru (!)"], ans: 0 },
+            { cat: "Sistem Operasi & File", q: "File dengan ekstensi '.exe' pada sistem operasi Windows menandakan bahwa file tersebut adalah...", opts: ["Program aplikasi yang dapat dieksekusi/dijalankan", "File lagu berformat MP3", "File gambar vektor", "Dokumen presentasi"], ans: 0 },
+
+            // === KATEGORI 3: JARINGAN, INTERNET & WEB (20 SOAL) ===
+            { cat: "Jaringan & Internet", q: "Saat bermain game online kompetitif (Mobile Legends/Valorant), karaktermu bergerak patah-patah atau terlambat merespons padahal kuota banyak. Metrik jaringan apa yang sedang tinggi?", opts: ["Ping / Latency (ms)", "Resolusi Layar", "Kapasitas Baterai", "Refresh Rate"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Perbedaan mendasar antara 'Bandwidth' dan 'Latency (Ping)' dalam koneksi internet adalah...", opts: ["Bandwidth adalah lebar kapasitas data (Mbps), sedangkan Latency adalah waktu tempuh respon data (ms)", "Bandwidth hanya untuk Wi-Fi, Latency hanya untuk kabel", "Bandwidth diukur dengan meter, Latency diukur dengan kilogram", "Keduanya memiliki arti yang sama persis"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Setiap perangkat yang terhubung ke internet memiliki alamat numerik unik seperti '192.168.1.1' agar paket data tidak salah kirim. Alamat ini disebut...", opts: ["IP Address", "URL", "HTML", "MACaron"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Kamu cukup mengetik 'youtube.com' di browser tanpa perlu menghafal deretan angka IP server Google. Sistem 'buku telepon internet' yang menerjemahkan nama domain ke IP Address adalah...", opts: ["DNS (Domain Name System)", "VPN", "HTTP", "Bluetooth"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Apa perbedaan utama antara situs web berawalan 'http://' dengan 'https://' (ikon gembok)?", opts: ["HTTPS mengenkripsi data yang dikirim sehingga aman dari penyadapan di jaringan publik", "HTTP hanya bisa dibuka di HP", "HTTPS tidak memerlukan koneksi internet", "HTTP lebih aman daripada HTTPS"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Perangkat jaringan di rumah atau sekolah yang bertugas menghubungkan jaringan lokal ke internet sekaligus membagi koneksi ke banyak perangkat adalah...", opts: ["Router", "Scanner", "Plotter", "Projector"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Mengapa koneksi Wi-Fi pada frekuensi 5 GHz umumnya jauh lebih kencang dibanding 2.4 GHz, tetapi jangkauannya lebih pendek?", opts: ["Frekuensi lebih tinggi membawa data lebih cepat namun gelombangnya lebih sulit menembus tembok tebal", "Wi-Fi 5 GHz membutuhkan kabel LAN", "Wi-Fi 2.4 GHz hanya untuk mengirim SMS", "Wi-Fi 5 GHz hanya aktif di malam hari"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Apa fungsi utama layanan VPN (Virtual Private Network) saat kamu terpaksa memakai Wi-Fi gratis di kafe atau bandara?", opts: ["Membuat terowongan terenkripsi agar lalu lintas datamu tidak mudah diintip di jaringan Wi-Fi publik", "Membuat kuota internet menjadi tidak terbatas secara gratis", "Mempercepat prosesor HP", "Menghapus seluruh iklan di YouTube"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Saat kamu memindai (scan) QR Code di layar proyektor auditorium tadi, informasi apa yang sebenarnya tersimpan di balik pola kotak hitam-putih tersebut?", opts: ["Teks atau alamat tautan (URL) yang langsung diterjemahkan oleh kamera perangkat", "Sinyal Bluetooth berkecepatan tinggi", "File video beresolusi 4K", "Gelombang radio FM"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Ketika kecepatan download internetmu tertulis '100 Mbps' (Megabits per second), kira-kira berapa kecepatan maksimal saat mengunduh file dalam satuan MB/s (Megabytes per second)?", opts: ["Sekitar 12,5 MB/s (karena 1 Byte = 8 bit)", "100 MB/s persis", "800 MB/s", "1 MB/s"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Kabel jaringan bawah laut (Submarine Cable) yang menghubungkan internet antarbenua menggunakan teknologi...", opts: ["Serat Optik (Fiber Optic) yang mentransmisikan pulsa cahaya", "Kabel tembaga telepon lama", "Sinyal Bluetooth jarak jauh", "Gelombang inframerah"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Perintah sederhana di Command Prompt / Terminal yang biasa dipakai teknisi jaringan untuk menguji apakah server tujuan merespons dan berapa lama waktu pantulnya adalah...", opts: ["ping", "copy", "format", "exit"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Saat kamu membuka sebuah situs web dan muncul pesan error '404 Not Found', apa arti kode status HTTP tersebut?", opts: ["Halaman web yang diminta tidak ditemukan di server tersebut", "Koneksi internet HP kamu terputus total", "Password Wi-Fi kamu salah", "Laptop kamu terkena virus berbahaya"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Jaringan komputer lokal yang menghubungkan komputer-komputer dalam satu ruangan lab sekolah atau satu gedung disebut...", opts: ["LAN (Local Area Network)", "WAN (Wide Area Network)", "PAN (Personal Area Network)", "MAN (Metropolitan Area Network)"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Apa yang terjadi di balik layar ketika kamu mengaktifkan fitur 'Mobile Hotspot / Tethering' di smartphone?", opts: ["Smartphone berfungsi sebagai router nirkabel mini yang membagikan koneksi seluler ke perangkat lain", "Smartphone mencuri sinyal Wi-Fi tetangga", "Baterai smartphone otomatis terisi", "Kartu SIM berubah menjadi SSD"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Dalam sebuah alamat URL 'https://informatika.kampus.ac.id/daftar', bagian 'kampus.ac.id' disebut sebagai...", opts: ["Nama Domain", "Protokol", "Alamat IP", "Ekstensi File"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Mengapa bermain game online menggunakan kabel LAN (Ethernet) ke PC jauh lebih stabil dibanding menggunakan Wi-Fi?", opts: ["Koneksi kabel bebas dari gangguan gelombang radio dan dinding penghalang", "Kabel LAN menambah kapasitas GPU", "Wi-Fi tidak bisa dipakai untuk game online", "Kabel LAN tidak membutuhkan router"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Perangkat lunak yang berfungsi meminta dan menampilkan halaman web dari server ke layar pengguna (seperti Chrome, Firefox, Edge) disebut...", opts: ["Web Browser", "Search Engine", "Operating System", "Database"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "Apa perbedaan antara 'Web Browser' (Chrome) dengan 'Search Engine' (Google Search)?", opts: ["Browser adalah aplikasi untuk membuka web, sedangkan Search Engine adalah situs pencari informasi di internet", "Browser butuh internet, Search Engine tidak", "Keduanya adalah merek sistem operasi", "Search Engine hanya bisa dibuka tanpa browser"], ans: 0 },
+            { cat: "Jaringan & Internet", q: "File teks kecil yang disimpan situs web di browsermu agar kamu tetap dalam keadaan login dan keranjang belanja tidak hilang disebut...", opts: ["Cookie", "Malware", "Firewall", "Driver"], ans: 0 },
+
+            // === KATEGORI 4: LOGIKA PEMROGRAMAN, ALGORITMA & DATA (20 SOAL) ===
+            { cat: "Algoritma & Coding", q: "Dalam ilmu komputer, resep masakan yang berisi langkah-langkah berurutan dan logis dari menyiapkan bahan hingga makanan siap disajikan sangat mirip dengan konsep...", opts: ["Algoritma", "Hardware", "Firewall", "Bandwidth"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Komputer di level paling dasar hanya memahami dua kondisi sinyal listrik: mati (0) dan menyala (1). Sistem bilangan ini disebut...", opts: ["Biner (Binary)", "Desimal", "Romawi", "Oktal"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Jika lampu indikator smart-home menggunakan kode biner 3-bit, berapa kombinasi warna/keadaan berbeda yang bisa direpresentasikan (dari 000 sampai 111)?", opts: ["8 kombinasi (2^3)", "3 kombinasi", "6 kombinasi", "16 kombinasi"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Dalam pemrograman game: 'JIKA nyawa karakter == 0, MAKA tampilkan layar Game Over, SELAIN ITU lanjutkan permainan'. Logika ini disebut...", opts: ["Percabangan (Conditional IF-ELSE)", "Perulangan (Looping)", "Variabel", "Komentar Kode"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Fitur 'Repeat Playlist' di Spotify yang memutar daftar lagu terus-menerus sampai kamu menekan tombol Stop menerapkan konsep pemrograman...", opts: ["Perulangan (Looping / While Loop)", "Percabangan", "Enkripsi", "Kompilasi"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Dalam aplikasi kuis ini, nilai 'skor = 0' yang terus bertambah setiap kali kamu menjawab benar disimpan di dalam wadah bernama...", opts: ["Variabel", "Konstanta", "Monitor", "Router"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Jika kamu menulis kode program untuk menghitung rata-rata nilai rapor, tipe data apa yang paling tepat untuk menyimpan hasil seperti '87.5'?", opts: ["Float / Double (Bilangan Desimal)", "Boolean", "String", "Char"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Tipe data 'Boolean' dalam pemrograman hanya memiliki dua nilai kemungkinan, yaitu...", opts: ["True (Benar) atau False (Salah)", "0 sampai 100", "Huruf A sampai Z", "Positif dan Negatif"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Ketika sebuah aplikasi mengalami error atau perilaku aneh akibat kesalahan logika programmer, istilah untuk kesalahan tersebut adalah...", opts: ["Bug", "Feature", "Pixel", "Cache"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Proses mencari, melacak, dan memperbaiki kesalahan (bug) di dalam baris kode program disebut...", opts: ["Debugging", "Formatting", "Overclocking", "Streaming"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Tiga teknologi fondasi utama yang membentuk hampir seluruh halaman web modern di internet adalah...", opts: ["HTML, CSS, dan JavaScript", "Word, Excel, dan PowerPoint", "Windows, Linux, dan macOS", "Wi-Fi, Bluetooth, dan NFC"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Jika membuat sebuah website diibaratkan membangun rumah, maka HTML adalah struktur kerangka temboknya, sedangkan CSS berperan sebagai...", opts: ["Cat, dekorasi, dan tata letak estetika rumah", "Listrik dan air", "Sertifikat tanah", "Pagar keamanan"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Antrean pembeli tiket bioskop di mana orang yang pertama datang adalah orang pertama yang dilayani mengikuti prinsip struktur data Queue yaitu...", opts: ["FIFO (First In, First Out)", "LIFO (Last In, First Out)", "Random Access", "Binary Search"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Tumpukan piring di kantin di mana piring yang paling terakhir ditaruh di atas adalah yang pertama diambil mengikuti prinsip struktur data Stack yaitu...", opts: ["LIFO (Last In, First Out)", "FIFO (First In, First Out)", "Sorting", "Hashing"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Kode warna pada desain web sering ditulis dalam format Heksadesimal seperti '#FF0000' untuk warna merah. Sistem bilangan Heksadesimal menggunakan basis...", opts: ["16 (angka 0–9 dan huruf A–F)", "2 (angka 0 dan 1)", "8 (angka 0–7)", "10 (angka 0–9)"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Sistem terorganisir yang menyimpan jutaan data akun pengguna, nilai siswa, dan riwayat transaksi aplikasi secara terstruktur disebut...", opts: ["Database (Basis Data)", "Screensaver", "Taskbar", "Wallpaper"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Apa fungsi 'API' (Application Programming Interface) ketika aplikasi ojek online menampilkan peta digital dari Google Maps di dalam aplikasinya?", opts: ["Menjadi jembatan komunikasi agar dua aplikasi berbeda bisa saling bertukar data dan fitur", "Menghapus memori HP yang penuh", "Memperkuat sinyal GPS satelit", "Mengubah tampilan layar menjadi gelap"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Kamu mencari nama 'Zulfa' di daftar absen 200 siswa yang sudah urut abjad dengan langsung membuka bagian tengah lalu membuang separuh bagian yang tidak relevan. Cara pencarian cepat ini disebut...", opts: ["Binary Search (Pencarian Biner)", "Linear Search", "Bubble Sort", "Brute Force"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Diagram alir dengan simbol bangun datar (belah ketupat untuk keputusan, persegi panjang untuk proses) untuk merancang alur program sebelum coding disebut...", opts: ["Flowchart", "Infografis", "Mindmap", "Pie Chart"], ans: 0 },
+            { cat: "Algoritma & Coding", q: "Baris teks catatan di dalam kode program yang diawali tanda '//' atau '#' dan diabaikan oleh komputer saat program dijalankan disebut...", opts: ["Comment (Komentar Kode)", "Syntax Error", "Looping", "Variable"], ans: 0 },
+
+            // === KATEGORI 5: KEAMANAN SIBER, AI & LITERASI DIGITAL (20 SOAL) ===
+            { cat: "Keamanan Siber & AI", q: "Kamu mendapat pesan WhatsApp berisi link 'Cek Paket Nyasar.apk' atau situs tiruan mirip Instagram yang memintamu login ulang. Teknik penipuan siber ini disebut...", opts: ["Phishing", "Debugging", "Rendering", "Overclocking"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Mengapa mengaktifkan Two-Factor Authentication (2FA) seperti kode OTP atau Google Authenticator sangat disarankan untuk akun media sosial dan email?", opts: ["Meski hacker tahu password-mu, mereka tetap tidak bisa masuk tanpa kode verifikasi kedua dari HP-mu", "Membuat kuota internet menjadi lebih hemat", "Otomatis mengganti password setiap jam", "Menambah jumlah followers"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Manakah contoh pembuatan password yang paling kuat dan aman dari serangan tebakan otomatis (Brute Force)?", opts: ["KopiSusu#2026!Merdeka (panjang, kombinasi huruf besar-kecil, angka, simbol)", "12345678", "budisantoso2008", "qwertyuiop"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Fitur 'End-to-End Encryption' pada aplikasi chat seperti WhatsApp menjamin bahwa...", opts: ["Hanya kamu dan penerima pesan yang bisa membaca isi chat; pihak penyedia server pun tidak bisa membacanya", "Pesan otomatis terhapus dalam 1 detik", "Chat tidak membutuhkan koneksi internet", "Pesan otomatis diterjemahkan ke bahasa Inggris"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Jenis malware berbahaya yang mengunci seluruh file di komputer korban dengan enkripsi lalu meminta uang tebusan (biasanya kripto) agar file dikembalikan disebut...", opts: ["Ransomware", "Adware", "Cookie", "Firmware"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Mengapa halaman FYP TikTok atau beranda YouTube setiap siswa berbeda-beda dan selalu menampilkan video yang sesuai minat masing-masing?", opts: ["Algoritma Machine Learning menganalisis riwayat tontonan, like, dan durasi kamu menonton video", "Admin YouTube memilihkan video satu per satu secara manual", "Video dipilih berdasarkan merek HP", "Semua pengguna sebenarnya melihat video yang sama"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Kecerdasan Buatan seperti ChatGPT atau Gemini yang mampu memahami dan menghasilkan teks bahasa manusia disebut...", opts: ["Large Language Model (LLM) / Generative AI", "Antivirus Cloud", "Operating System", "Blockchain"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Fenomena ketika AI Generatif memberikan jawaban yang terdengar sangat meyakinkan namun faktanya salah atau mengarang bebas disebut...", opts: ["AI Hallucination (Halusinasi AI)", "Overclocking", "Phishing", "Buffering"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Teknologi AI yang mampu memanipulasi wajah atau suara seseorang dalam video sehingga terlihat seolah-olah mengucapkan hal yang tidak pernah ia lakukan disebut...", opts: ["Deepfake", "Firewall", "Defragment", "Captcha"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Kotak verifikasi 'I'm not a robot' (memilih gambar lampu lalu lintas atau zebra cross) sebelum masuk ke sebuah situs disebut...", opts: ["CAPTCHA", "BIOS", "HDMI", "VPN"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Semua jejak aktivitasmu di internet—mulai dari komentar, foto yang diunggah, hingga riwayat pencarian yang bertahan lama di dunia maya—disebut...", opts: ["Jejak Digital (Digital Footprint)", "RAM Cache", "IP Lokal", "Algoritma Biner"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Sistem keamanan jaringan pada komputer atau router yang bertindak seperti satpam penyaring lalu lintas data masuk dan keluar yang mencurigakan disebut...", opts: ["Firewall", "Motherboard", "Touchpad", "Compiler"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Teknik manipulasi psikologis untuk menipu korban agar mau membocorkan informasi rahasia (misalnya menelepon mengaku dari pihak bank atau kampus) disebut...", opts: ["Social Engineering", "Machine Learning", "Cloud Computing", "Web Scraping"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Serangan siber yang membanjiri sebuah server situs web dengan jutaan permintaan palsu secara bersamaan hingga server lumpuh dan tidak bisa diakses disebut...", opts: ["DDoS (Distributed Denial of Service)", "Phishing", "SQL Injection", "Keylogger"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Dalam bidang AI, cabang ilmu yang melatih komputer agar mampu 'melihat' dan mengenali objek pada gambar atau video (seperti Face Unlock di HP) adalah...", opts: ["Computer Vision", "Natural Language Processing", "Cloud Storage", "Data Compression"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Mengapa menggunakan satu password yang sama persis untuk semua akun (Instagram, email, game, e-wallet) sangat berbahaya?", opts: ["Jika satu situs bocor datanya, hacker bisa langsung membobol seluruh akunmu yang lain (Credential Stuffing)", "Password akan cepat kedaluwarsa", "HP akan menjadi lebih lambat", "Situs web akan menolak login"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Seorang ahli keamanan siber yang direkrut secara legal oleh perusahaan untuk menguji dan mencari celah keamanan sistem sebelum dimanfaatkan penjahat disebut...", opts: ["Ethical Hacker / Penetration Tester", "Black Hat Hacker", "Spambot", "Scammer"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Proses mengubah pesan asli (plaintext) menjadi teks acak yang tidak bisa dibaca tanpa kunci rahasia disebut...", opts: ["Enkripsi (Encryption)", "Kompresi", "Duplikasi", "Instalasi"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Aplikasi pengelola kata sandi terenkripsi yang membantu menyimpan ratusan password unik secara aman sehingga kamu cukup mengingat satu Master Password adalah...", opts: ["Password Manager", "Task Manager", "File Explorer", "Device Manager"], ans: 0 },
+            { cat: "Keamanan Siber & AI", q: "Ketika berlatih membedakan foto asli dan foto buatan AI, detail kecil apa yang sering kali masih menjadi kelemahan gambar AI?", opts: ["Teks tulisan latar belakang yang acak atau bentuk jari/simetri yang tidak wajar", "Ukuran file gambar selalu 1 byte", "Gambar AI tidak pernah memiliki warna biru", "Gambar AI hanya bisa dibuka di Linux"], ans: 0 }
         ];
 
         // -------------------- 3. WEB AUDIO API (EFEK SUARA) --------------------
@@ -592,6 +684,15 @@
 
         function playCountdownBeep(final = false) {
             playTone(final ? 880 : 440, 'triangle', final ? 0.45 : 0.18, 0.28);
+        }
+
+        function playTimerTickWarning() {
+            playTone(740, 'sine', 0.08, 0.12);
+        }
+
+        function playTimeUpBuzzer() {
+            playTone(220, 'sawtooth', 0.25, 0.25);
+            setTimeout(() => playTone(165, 'sawtooth', 0.45, 0.25), 200);
         }
 
         function playCorrectSound() {
@@ -624,6 +725,7 @@
         let currentMode = null; // 'host' | 'player'
         let activeRoomCode = '';
         let roomStatus = 'lobby'; // 'lobby' | 'racing' | 'finished'
+        let roomRaceStartedAt = 0;
         let playersMap = {};
         let unsubRoom = null;
         let unsubPlayers = null;
@@ -631,18 +733,33 @@
         // State Host
         let botInterval = null;
         let isBotActive = false;
+        let hostTimerInterval = null;
 
-        // State Player (Kuis 10 Soal Acak)
+        // State Player (Kuis 15 Soal Acak + Timer 250 Detik)
         let myPlayerId = null;
         let myPlayerName = '';
         let myAvatar = AVATARS[0];
-        let myQuestions = []; // 10 soal acak unik
-        let currentQuestionIndex = 0; // 0..9
-        let correctCount = 0; // 0..10 (tiap 1 benar = 10%)
+        let myQuestions = []; // 15 soal acak unik
+        let currentQuestionIndex = 0; // 0..14
+        let correctCount = 0; // 0..15 (tiap 1 benar = 100/15 %)
         let isQuizCompleted = false;
+        let isTimedOut = false;
         let isAnsweringLocked = false;
         let raceStartTimestamp = 0;
         let myFinishDurationMs = null;
+        let playerTimerInterval = null;
+
+        // Helper format detik -> "250d (04:10)"
+        function formatClockMMSS(sec) {
+            const s = Math.max(0, Math.ceil(sec));
+            const mins = String(Math.floor(s / 60)).padStart(2, '0');
+            const secs = String(s % 60).padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+
+        function calcProgressPercent(correct) {
+            return Math.min(100, Number(((correct / TOTAL_QUESTIONS_PER_PLAYER) * 100).toFixed(2)));
+        }
 
         // -------------------- 6. MODAL & NAVIGASI --------------------
         window.showModal = (title, message, icon = '⚡') => {
@@ -678,6 +795,8 @@
             if (unsubRoom) unsubRoom();
             if (unsubPlayers) unsubPlayers();
             if (botInterval) clearInterval(botInterval);
+            if (hostTimerInterval) clearInterval(hostTimerInterval);
+            if (playerTimerInterval) clearInterval(playerTimerInterval);
             isBotActive = false;
 
             document.getElementById('view-host').classList.add('hidden');
@@ -718,6 +837,8 @@
                 await setDoc(getRoomDocRef(activeRoomCode), {
                     code: activeRoomCode,
                     status: 'lobby',
+                    raceStartedAt: null,
+                    durationSeconds: QUIZ_DURATION_SECONDS,
                     hostUid: currentUser.uid,
                     createdAt: Date.now()
                 });
@@ -732,7 +853,9 @@
         function listenToRoomAsHost(code) {
             unsubRoom = onSnapshot(getRoomDocRef(code), (snap) => {
                 if (snap.exists()) {
-                    roomStatus = snap.data().status;
+                    const data = snap.data();
+                    roomStatus = data.status;
+                    roomRaceStartedAt = data.raceStartedAt || 0;
                     updateHostUIByStatus();
                 }
             }, (err) => console.error("Room listener error:", err));
@@ -746,21 +869,64 @@
             }, (err) => console.error("Players listener error:", err));
         }
 
+        function startHostTimerLoop() {
+            if (hostTimerInterval) clearInterval(hostTimerInterval);
+            const timerBox = document.getElementById('host-timer-box');
+            const timerDisplay = document.getElementById('host-timer-display');
+            timerBox.classList.remove('hidden');
+
+            const updateTick = () => {
+                if (roomStatus !== 'racing') {
+                    clearInterval(hostTimerInterval);
+                    return;
+                }
+                const startTs = roomRaceStartedAt || Date.now();
+                const elapsedSec = Math.floor((Date.now() - startTs) / 1000);
+                const remaining = Math.max(0, QUIZ_DURATION_SECONDS - elapsedSec);
+
+                timerDisplay.textContent = `${remaining}d (${formatClockMMSS(remaining)})`;
+
+                if (remaining <= 20) {
+                    timerBox.className = 'px-3.5 py-2 rounded-xl bg-rose-950/80 border-2 border-rose-500 flex items-center gap-2 animate-pulse';
+                    timerDisplay.className = 'text-xl sm:text-2xl font-black text-rose-400 font-mono';
+                } else if (remaining <= 60) {
+                    timerBox.className = 'px-3.5 py-2 rounded-xl bg-amber-950/60 border-2 border-amber-400 flex items-center gap-2';
+                    timerDisplay.className = 'text-xl sm:text-2xl font-black text-amber-300 font-mono';
+                } else {
+                    timerBox.className = 'px-3.5 py-2 rounded-xl bg-slate-950 border-2 border-cyber-cyan/60 flex items-center gap-2';
+                    timerDisplay.className = 'text-xl sm:text-2xl font-black text-cyber-cyan font-mono';
+                }
+
+                if (remaining <= 0) {
+                    clearInterval(hostTimerInterval);
+                    finishRaceAutomatically();
+                }
+            };
+
+            updateTick();
+            hostTimerInterval = setInterval(updateTick, 500);
+        }
+
         function updateHostUIByStatus() {
             const badge = document.getElementById('host-status-badge');
             const lobbyArea = document.getElementById('host-lobby-area');
             const raceArea = document.getElementById('host-race-area');
             const btnStart = document.getElementById('btn-start-race');
+            const btnFinishNow = document.getElementById('btn-finish-now');
             const btnReset = document.getElementById('btn-reset-race');
             const podium = document.getElementById('podium-overlay');
+            const hostTimerBox = document.getElementById('host-timer-box');
 
             if (roomStatus === 'lobby') {
+                if (hostTimerInterval) clearInterval(hostTimerInterval);
+                hostTimerBox.classList.add('hidden');
                 badge.textContent = 'LOBBY MENUNGGU';
                 badge.className = 'text-xs font-mono px-3 py-1 rounded-full bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40';
                 lobbyArea.classList.remove('hidden');
                 raceArea.classList.add('hidden');
                 podium.classList.add('hidden');
                 btnStart.classList.remove('hidden');
+                btnFinishNow.classList.add('hidden');
                 btnReset.classList.add('hidden');
             } else if (roomStatus === 'racing') {
                 badge.textContent = 'KUIS BALAP AKTIF 🔥';
@@ -769,20 +935,25 @@
                 raceArea.classList.remove('hidden');
                 podium.classList.add('hidden');
                 btnStart.classList.add('hidden');
+                btnFinishNow.classList.remove('hidden');
                 btnReset.classList.remove('hidden');
+                startHostTimerLoop();
             } else if (roomStatus === 'finished') {
+                if (hostTimerInterval) clearInterval(hostTimerInterval);
                 badge.textContent = 'SELESAI 🏆';
                 badge.className = 'text-xs font-mono px-3 py-1 rounded-full bg-cyber-gold/20 text-cyber-gold border border-cyber-gold/40';
+                btnFinishNow.classList.add('hidden');
+                btnReset.classList.remove('hidden');
                 showPodiumWinners();
             }
         }
 
-        // Fungsi pengurutan peringkat: Skor tertinggi -> Waktu selesai tercepat
+        // Pengurutan peringkat: Jumlah Benar / Progres tertinggi -> Waktu selesai tercepat
         function sortPlayersByRank(playersList) {
             return [...playersList].sort((a, b) => {
-                const progA = a.progress || 0;
-                const progB = b.progress || 0;
-                if (progB !== progA) return progB - progA;
+                const corrA = a.correctCount !== undefined ? a.correctCount : Math.round(((a.progress || 0) / 100) * TOTAL_QUESTIONS_PER_PLAYER);
+                const corrB = b.correctCount !== undefined ? b.correctCount : Math.round(((b.progress || 0) / 100) * TOTAL_QUESTIONS_PER_PLAYER);
+                if (corrB !== corrA) return corrB - corrA;
                 const timeA = a.finishedAt || Infinity;
                 const timeB = b.finishedAt || Infinity;
                 return timeA - timeB;
@@ -801,7 +972,7 @@
                         <div class="text-5xl mb-3 animate-float">📲</div>
                         <p class="text-lg font-bold text-white mb-1">Menunggu Siswa Bergabung...</p>
                         <p class="text-sm text-slate-400 max-w-md mx-auto">
-                            Scan QR Code di sebelah kanan menggunakan HP, atau klik <b>"Test HP Siswa"</b> / <b>"+30 Bot Demo"</b>!
+                            Scan QR Code di sebelah kanan menggunakan HP, atau klik <b>"Test Tab Siswa"</b> / <b>"+30 Bot Demo"</b>!
                         </p>
                     </div>`;
             } else {
@@ -823,7 +994,7 @@
                 lbContainer.innerHTML = sortedPlayers.slice(0, 10).map((p, idx) => {
                     const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`;
                     const barColor = idx === 0 ? 'bg-cyber-gold' : idx === 1 ? 'bg-cyber-cyan' : idx === 2 ? 'bg-cyber-orange' : 'bg-cyber-purple';
-                    const correctNum = Math.round((p.progress || 0) / 10);
+                    const correctNum = p.correctCount !== undefined ? p.correctCount : Math.round(((p.progress || 0) / 100) * TOTAL_QUESTIONS_PER_PLAYER);
                     const statusIcon = p.isCompleted ? '✓' : '';
                     return `
                         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-2">
@@ -833,7 +1004,7 @@
                                     <span>${p.avatar}</span>
                                     <span class="font-bold text-white truncate">${escapeHtml(p.name)}</span>
                                 </div>
-                                <span class="font-mono font-bold text-cyber-cyan shrink-0">${correctNum}/10 ${statusIcon}</span>
+                                <span class="font-mono font-bold text-cyber-cyan shrink-0">${correctNum}/15 ${statusIcon}</span>
                             </div>
                             <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
                                 <div class="h-full ${barColor} transition-all duration-300" style="width: ${Math.min(100, p.progress || 0)}%"></div>
@@ -889,12 +1060,9 @@
                     el.style.zIndex = rank < 3 ? (40 - rank) : (isLeader ? 25 : 10);
                 });
 
-                // Otomatis akhiri balapan jika minimal 3 pemain mencapai 100%, atau seluruh peserta sudah menyelesaikan 10 soal
-                const perfectFinishers = sortedPlayers.filter(p => (p.progress || 0) >= 100);
+                // Otomatis akhiri balapan jika seluruh peserta sudah selesai menjawab semua 15 soal (atau waktu habis)
                 const allCompleted = allPlayers.length > 0 && allPlayers.every(p => p.isCompleted === true);
-                const targetPerfect = Math.min(3, allPlayers.length);
-
-                if (roomStatus === 'racing' && ((perfectFinishers.length >= targetPerfect && targetPerfect > 0) || allCompleted)) {
+                if (roomStatus === 'racing' && allCompleted) {
                     finishRaceAutomatically();
                 }
             }
@@ -902,7 +1070,7 @@
 
         window.startCountdown = async () => {
             if (Object.keys(playersMap).length === 0) {
-                showModal('Lobby Masih Kosong', 'Tunggu siswa scan QR Code, atau klik "Test HP Siswa" / "+30 Bot Demo" terlebih dahulu!', '👥');
+                showModal('Lobby Masih Kosong', 'Tunggu siswa scan QR Code, atau klik "Test Tab Siswa" / "+30 Bot Demo" terlebih dahulu!', '👥');
                 return;
             }
 
@@ -934,36 +1102,59 @@
 
         async function setRoomStatus(newStatus) {
             roomStatus = newStatus;
+            const now = Date.now();
+            if (newStatus === 'racing') roomRaceStartedAt = now;
             updateHostUIByStatus();
+
             if (isCloudConnected && currentUser) {
-                await updateDoc(getRoomDocRef(activeRoomCode), { status: newStatus });
+                const payload = { status: newStatus };
+                if (newStatus === 'racing') payload.raceStartedAt = now;
+                if (newStatus === 'lobby') payload.raceStartedAt = null;
+                await updateDoc(getRoomDocRef(activeRoomCode), payload);
             }
         }
 
-        async function finishRaceAutomatically() {
+        window.finishRaceAutomatically = async () => {
             if (roomStatus === 'finished') return;
             await setRoomStatus('finished');
             playVictoryFanfare();
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 160, spread: 95, origin: { y: 0.6 } });
             }
-        }
+        };
 
         function showPodiumWinners() {
             const sorted = sortPlayersByRank(Object.values(playersMap));
-            const top3 = sorted.slice(0, 3);
-            const medals = ['🥇 JUARA 1', '🥈 JUARA 2', '🥉 JUARA 3'];
-            const borders = ['border-cyber-gold glow-gold scale-105', 'border-cyber-cyan glow-cyan', 'border-cyber-orange'];
+            const top10 = sorted.slice(0, 10);
+            const badges = [
+                '🥇 JUARA 1', '🥈 JUARA 2', '🥉 JUARA 3',
+                '🏅 JUARA 4', '🏅 JUARA 5', '🏅 JUARA 6',
+                '🏅 JUARA 7', '🏅 JUARA 8', '🏅 JUARA 9', '🏅 JUARA 10'
+            ];
 
-            document.getElementById('podium-cards').innerHTML = top3.map((p, i) => {
-                const correctNum = Math.round((p.progress || 0) / 10);
+            document.getElementById('podium-cards').innerHTML = top10.map((p, i) => {
+                const correctNum = p.correctCount !== undefined ? p.correctCount : Math.round(((p.progress || 0) / 100) * TOTAL_QUESTIONS_PER_PLAYER);
                 const durSec = p.durationMs ? `${(p.durationMs / 1000).toFixed(1)} dtk` : 'Selesai';
+
+                let cardBorder = 'border-slate-700 bg-cyber-card/90';
+                let badgeColor = 'text-cyber-cyan';
+                if (i === 0) {
+                    cardBorder = 'border-cyber-gold bg-yellow-500/15 glow-gold';
+                    badgeColor = 'text-cyber-gold';
+                } else if (i === 1) {
+                    cardBorder = 'border-slate-300 bg-slate-400/15 glow-cyan';
+                    badgeColor = 'text-slate-200';
+                } else if (i === 2) {
+                    cardBorder = 'border-cyber-orange bg-amber-600/15';
+                    badgeColor = 'text-cyber-orange';
+                }
+
                 return `
-                    <div class="bg-cyber-card border-2 ${borders[i]} rounded-2xl p-5 flex flex-col items-center">
-                        <span class="text-xs font-mono font-bold text-cyber-gold mb-2">${medals[i]}</span>
-                        <div class="text-5xl mb-2">${p.avatar}</div>
-                        <div class="text-lg font-black text-white truncate max-w-full">${escapeHtml(p.name)}</div>
-                        <div class="text-xs font-mono text-cyber-cyan mt-1">${correctNum}/10 Benar (${Math.round(p.progress || 0)}%)</div>
+                    <div class="border-2 ${cardBorder} rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center transition-all">
+                        <span class="text-[11px] sm:text-xs font-mono font-extrabold ${badgeColor} mb-1.5">${badges[i]}</span>
+                        <div class="text-3xl sm:text-4xl mb-1.5">${p.avatar || '🚀'}</div>
+                        <div class="text-sm sm:text-base font-black text-white truncate max-w-full">${escapeHtml(p.name)}</div>
+                        <div class="text-xs font-mono text-emerald-400 mt-1">${correctNum}/15 Benar</div>
                         <div class="text-[11px] font-mono text-slate-400 mt-0.5">${durSec}</div>
                     </div>
                 `;
@@ -974,6 +1165,7 @@
 
         window.resetRace = async () => {
             if (botInterval) clearInterval(botInterval);
+            if (hostTimerInterval) clearInterval(hostTimerInterval);
             isBotActive = false;
             document.getElementById('btn-sim-text').textContent = '+30 Bot Demo';
             document.getElementById('race-track-container').innerHTML = '';
@@ -990,7 +1182,7 @@
                         durationMs: null
                     });
                 });
-                batch.update(getRoomDocRef(activeRoomCode), { status: 'lobby' });
+                batch.update(getRoomDocRef(activeRoomCode), { status: 'lobby', raceStartedAt: null });
                 await batch.commit();
             }
         };
@@ -1025,7 +1217,7 @@
             showModal('Link Join Tersalin!', `Link untuk Room ${activeRoomCode} berhasil disalin:\n${url}`, '📋');
         };
 
-        // -------------------- 8. SIMULASI +30 BOT DEMO KUIS --------------------
+        // -------------------- 8. SIMULASI +30 BOT DEMO KUIS (15 SOAL) --------------------
         window.toggleBotSimulation = async () => {
             if (isBotActive) {
                 clearInterval(botInterval);
@@ -1058,7 +1250,6 @@
                 await batch.commit();
             }
 
-            // Simulasikan bot menjawab 10 soal satu per satu secara acak tiap 1.4 detik
             botInterval = setInterval(async () => {
                 if (roomStatus !== 'racing') return;
 
@@ -1070,11 +1261,10 @@
 
                 sampleBots.forEach(bot => {
                     const nextAnswered = (bot.answeredCount || 0) + 1;
-                    // Peluang bot menjawab benar 75%
-                    const isRight = Math.random() < 0.75;
+                    const isRight = Math.random() < 0.78;
                     const nextCorrect = (bot.correctCount || 0) + (isRight ? 1 : 0);
-                    const nextProg = nextCorrect * 10;
-                    const done = nextAnswered >= 10;
+                    const nextProg = calcProgressPercent(nextCorrect);
+                    const done = nextAnswered >= TOTAL_QUESTIONS_PER_PLAYER;
 
                     batch.update(getPlayerDocRef(activeRoomCode, bot.id), {
                         answeredCount: nextAnswered,
@@ -1082,15 +1272,15 @@
                         progress: nextProg,
                         isCompleted: done,
                         finishedAt: done ? Date.now() : null,
-                        durationMs: done ? (nextAnswered * 1450 + Math.floor(Math.random() * 500)) : null
+                        durationMs: done ? (nextAnswered * 2200 + Math.floor(Math.random() * 800)) : null
                     });
                 });
 
                 await batch.commit().catch(e => console.error("Bot tick error:", e));
-            }, 1400);
+            }, 2200);
         };
 
-        // -------------------- 9. LOGIKA PLAYER (HP SISWA - KUIS 10 SOAL ACAK) --------------------
+        // -------------------- 9. LOGIKA PLAYER (HP SISWA - 15 SOAL ACAK + TIMER 250 DETIK) --------------------
         function renderAvatarSelector() {
             const container = document.getElementById('avatar-selector');
             container.innerHTML = AVATARS.map((av, idx) => `
@@ -1109,14 +1299,14 @@
             btnEl.className = 'avatar-opt p-2.5 rounded-xl text-2xl border-2 border-cyber-cyan bg-cyber-cyan/20 scale-105 transition cursor-pointer';
         };
 
-        // Mengambil 10 pertanyaan acak unik dari 50 bank soal (Fisher-Yates Shuffle)
-        function pick10RandomQuestions() {
-            const copy = [...QUESTION_BANK_50];
+        // Mengambil 15 pertanyaan acak unik dari 100 bank soal (Fisher-Yates Shuffle)
+        function pick15RandomQuestions() {
+            const copy = [...QUESTION_BANK_100];
             for (let i = copy.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [copy[i], copy[j]] = [copy[j], copy[i]];
             }
-            return copy.slice(0, 10);
+            return copy.slice(0, TOTAL_QUESTIONS_PER_PLAYER);
         }
 
         window.joinGameAsPlayer = async () => {
@@ -1189,22 +1379,123 @@
         };
 
         function resetLocalQuizState() {
-            myQuestions = pick10RandomQuestions();
+            if (playerTimerInterval) clearInterval(playerTimerInterval);
+            myQuestions = pick15RandomQuestions();
             currentQuestionIndex = 0;
             correctCount = 0;
             isQuizCompleted = false;
+            isTimedOut = false;
             isAnsweringLocked = false;
             raceStartTimestamp = 0;
             myFinishDurationMs = null;
             updateQuizProgressHeader();
+            updatePlayerTimerUI(QUIZ_DURATION_SECONDS);
+        }
+
+        // Timer Hitung Mundur 250 Detik di HP Siswa
+        function startPlayerTimerLoop() {
+            if (playerTimerInterval) clearInterval(playerTimerInterval);
+            let lastBeepSec = -1;
+
+            const tickTimer = () => {
+                if (isQuizCompleted || roomStatus !== 'racing') {
+                    clearInterval(playerTimerInterval);
+                    return;
+                }
+
+                // Gunakan timestamp server room jika tersedia agar sinkron dengan layar proyektor
+                const baseStart = roomRaceStartedAt || raceStartTimestamp || Date.now();
+                const elapsedSec = (Date.now() - baseStart) / 1000;
+                const remaining = Math.max(0, QUIZ_DURATION_SECONDS - elapsedSec);
+                const ceilRem = Math.ceil(remaining);
+
+                updatePlayerTimerUI(remaining);
+
+                // Bunyi peringatan lembut pada 10 detik terakhir
+                if (ceilRem <= 10 && ceilRem > 0 && ceilRem !== lastBeepSec) {
+                    lastBeepSec = ceilRem;
+                    playTimerTickWarning();
+                }
+
+                // Waktu 250 detik habis!
+                if (remaining <= 0) {
+                    clearInterval(playerTimerInterval);
+                    handlePlayerTimeUp();
+                }
+            };
+
+            tickTimer();
+            playerTimerInterval = setInterval(tickTimer, 250);
+        }
+
+        function updatePlayerTimerUI(remainingSeconds) {
+            const ceilSec = Math.max(0, Math.ceil(remainingSeconds));
+            const pct = Math.max(0, Math.min(100, (remainingSeconds / QUIZ_DURATION_SECONDS) * 100));
+
+            const card = document.getElementById('player-timer-card');
+            const secEl = document.getElementById('player-timer-seconds');
+            const clockEl = document.getElementById('player-timer-clock');
+            const barEl = document.getElementById('player-timer-bar');
+            const iconEl = document.getElementById('player-timer-icon');
+
+            secEl.textContent = `${ceilSec}d`;
+            clockEl.textContent = `(${formatClockMMSS(ceilSec)})`;
+            barEl.style.width = `${pct}%`;
+
+            if (ceilSec <= 20) {
+                card.className = 'bg-rose-950/90 border-2 border-rose-500 rounded-2xl p-3 shadow-lg animate-pulse';
+                secEl.className = 'font-mono font-black text-2xl text-rose-400';
+                barEl.className = 'h-full bg-rose-500 transition-all duration-300 ease-linear';
+                iconEl.textContent = '🚨';
+            } else if (ceilSec <= 60) {
+                card.className = 'bg-amber-950/70 border-2 border-amber-400 rounded-2xl p-3 shadow-lg';
+                secEl.className = 'font-mono font-black text-2xl text-amber-300';
+                barEl.className = 'h-full bg-amber-400 transition-all duration-300 ease-linear';
+                iconEl.textContent = '⚠️';
+            } else {
+                card.className = 'bg-slate-950 border-2 border-cyber-cyan rounded-2xl p-3 shadow-lg';
+                secEl.className = 'font-mono font-black text-2xl text-cyber-cyan';
+                barEl.className = 'h-full bg-cyber-cyan transition-all duration-300 ease-linear';
+                iconEl.textContent = '⏱️';
+            }
+        }
+
+        async function handlePlayerTimeUp() {
+            if (isQuizCompleted) return;
+            isQuizCompleted = true;
+            isTimedOut = true;
+            isAnsweringLocked = true;
+            myFinishDurationMs = QUIZ_DURATION_SECONDS * 1000;
+
+            playTimeUpBuzzer();
+            if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+
+            const finalProg = calcProgressPercent(correctCount);
+
+            if (isCloudConnected && currentUser && myPlayerId) {
+                await updateDoc(getPlayerDocRef(activeRoomCode, myPlayerId), {
+                    progress: finalProg,
+                    correctCount: correctCount,
+                    answeredCount: currentQuestionIndex,
+                    isCompleted: true,
+                    finishedAt: Date.now(),
+                    durationMs: myFinishDurationMs
+                }).catch(err => console.error("Timeout sync error:", err));
+            }
+
+            document.getElementById('finish-main-title').textContent = 'WAKTU HABIS! ⏰';
+            document.getElementById('finish-sub-title').textContent = 'Batas waktu 250 detik telah berakhir';
+            switchPlayerSubView('finish');
         }
 
         function listenToRoomAndRankAsPlayer(code) {
             unsubRoom = onSnapshot(getRoomDocRef(code), (snap) => {
                 if (!snap.exists()) return;
-                const status = snap.data().status;
+                const data = snap.data();
+                const status = data.status;
                 const prevStatus = roomStatus;
                 roomStatus = status;
+                roomRaceStartedAt = data.raceStartedAt || 0;
 
                 if (status === 'lobby') {
                     resetLocalQuizState();
@@ -1214,12 +1505,14 @@
                         switchPlayerSubView('finish');
                     } else {
                         if (raceStartTimestamp === 0 || prevStatus !== 'racing') {
-                            raceStartTimestamp = Date.now();
+                            raceStartTimestamp = roomRaceStartedAt || Date.now();
                             renderCurrentQuestion();
+                            startPlayerTimerLoop();
                         }
                         switchPlayerSubView('quiz');
                     }
                 } else if (status === 'finished') {
+                    if (playerTimerInterval) clearInterval(playerTimerInterval);
                     switchPlayerSubView('finish');
                 }
             }, (err) => console.error("Player room listener error:", err));
@@ -1233,19 +1526,19 @@
                 const myRankIndex = sorted.findIndex(p => p.id === myPlayerId);
                 if (myRankIndex !== -1) {
                     const rankNum = myRankIndex + 1;
-                    const myProg = correctCount * 10;
+                    const myProg = Math.round(calcProgressPercent(correctCount));
                     document.getElementById('player-final-rank').textContent = `#${rankNum}`;
-                    document.getElementById('player-final-score').textContent = `Skor: ${correctCount}/10 Benar (${myProg}%)`;
+                    document.getElementById('player-final-score').textContent = `Skor: ${correctCount}/${TOTAL_QUESTIONS_PER_PLAYER} Benar (${myProg}%)`;
 
                     if (myFinishDurationMs !== null) {
-                        document.getElementById('player-final-time').textContent = `Waktu Penyelesaian: ${(myFinishDurationMs / 1000).toFixed(1)} detik`;
+                        document.getElementById('player-final-time').textContent = `Waktu Tempuh: ${(myFinishDurationMs / 1000).toFixed(1)} detik`;
                     }
 
-                    if (rankNum <= 3) {
-                        document.getElementById('finish-trophy-icon').textContent = rankNum === 1 ? '🥇' : rankNum === 2 ? '🥈' : '🥉';
-                        document.getElementById('finish-merch-msg').innerHTML = `<span class="text-cyber-gold font-bold">LUAR BIASA! Kamu berada di TOP 3 (#${rankNum})!</span> Jika posisi bertahan hingga ronde berakhir, segera maju ke panggung mengambil merchandise kampus!`;
+                    if (rankNum <= 10) {
+                        document.getElementById('finish-trophy-icon').textContent = rankNum === 1 ? '🥇' : rankNum === 2 ? '🥈' : rankNum === 3 ? '🥉' : '🏅';
+                        document.getElementById('finish-merch-msg').innerHTML = `<span class="text-cyber-gold font-bold">LUAR BIASA! Kamu berada di TOP 10 (#${rankNum})!</span> Jika posisi bertahan hingga ronde berakhir, segera maju ke panggung mengambil merchandise kampus!`;
                     } else {
-                        document.getElementById('finish-trophy-icon').textContent = '🏁';
+                        document.getElementById('finish-trophy-icon').textContent = isTimedOut ? '⏰' : '🏁';
                         document.getElementById('finish-merch-msg').textContent = `Keren! Kamu berada di peringkat #${rankNum} dari ${sorted.length} peserta. Bersiaplah jika dosen membuka ronde berikutnya!`;
                     }
                 }
@@ -1264,36 +1557,45 @@
         }
 
         function updateQuizProgressHeader() {
-            const pct = correctCount * 10;
-            const qNumDisplay = Math.min(10, currentQuestionIndex + 1);
+            const pct = Math.round(calcProgressPercent(correctCount));
+            const qNumDisplay = Math.min(TOTAL_QUESTIONS_PER_PLAYER, currentQuestionIndex + 1);
             document.getElementById('quiz-score-badge').textContent = `Skor: ${correctCount} Benar (${pct}%)`;
-            document.getElementById('quiz-question-counter').textContent = `${qNumDisplay} / 10`;
-            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+            document.getElementById('quiz-question-counter').textContent = `${qNumDisplay} / ${TOTAL_QUESTIONS_PER_PLAYER}`;
+            document.getElementById('quiz-progress-bar').style.width = `${calcProgressPercent(correctCount)}%`;
         }
 
         function renderCurrentQuestion() {
-            if (currentQuestionIndex >= 10) return;
+            if (currentQuestionIndex >= TOTAL_QUESTIONS_PER_PLAYER) return;
 
             const qObj = myQuestions[currentQuestionIndex];
             const box = document.getElementById('quiz-question-box');
             const feedbackPill = document.getElementById('quiz-feedback-pill');
 
-            box.className = 'flex-1 bg-cyber-card border-2 border-slate-800 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-colors duration-200';
+            box.className = 'flex-1 bg-cyber-card border-2 border-slate-800 rounded-3xl p-4 sm:p-5 flex flex-col justify-between shadow-xl transition-colors duration-200';
             feedbackPill.classList.add('hidden');
 
             document.getElementById('quiz-category-tag').textContent = qObj.cat;
             document.getElementById('quiz-question-text').textContent = qObj.q;
             updateQuizProgressHeader();
 
+            // Acak posisi opsi A, B, C, D agar siswa tidak sekadar menghafal posisi jawaban
+            const indexedOpts = qObj.opts.map((text, idx) => ({ text, isCorrect: idx === qObj.ans }));
+            for (let i = indexedOpts.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indexedOpts[i], indexedOpts[j]] = [indexedOpts[j], indexedOpts[i]];
+            }
+            const correctShuffledIdx = indexedOpts.findIndex(o => o.isCorrect);
+            window._currentCorrectOptIdx = correctShuffledIdx;
+
             const letters = ['A', 'B', 'C', 'D'];
             const optsContainer = document.getElementById('quiz-options-container');
-            optsContainer.innerHTML = qObj.opts.map((optText, idx) => `
+            optsContainer.innerHTML = indexedOpts.map((optObj, idx) => `
                 <button type="button" id="opt-btn-${idx}" onclick="submitQuizAnswer(${idx})"
-                    class="w-full p-4 rounded-2xl bg-slate-950 hover:bg-slate-900 border-2 border-slate-700 hover:border-cyber-cyan text-left flex items-center gap-3 transition active:scale-98 cursor-pointer">
-                    <span class="w-8 h-8 rounded-xl bg-slate-800 text-cyber-cyan font-mono font-extrabold text-sm flex items-center justify-center shrink-0">
+                    class="w-full p-3.5 rounded-2xl bg-slate-950 hover:bg-slate-900 border-2 border-slate-700 hover:border-cyber-cyan text-left flex items-center gap-3 transition active:scale-98 cursor-pointer">
+                    <span class="w-7 h-7 rounded-lg bg-slate-800 text-cyber-cyan font-mono font-extrabold text-xs flex items-center justify-center shrink-0">
                         ${letters[idx]}
                     </span>
-                    <span class="text-sm sm:text-base font-bold text-white leading-snug">${escapeHtml(optText)}</span>
+                    <span class="text-xs sm:text-sm font-bold text-white leading-snug">${escapeHtml(optObj.text)}</span>
                 </button>
             `).join('');
 
@@ -1304,12 +1606,12 @@
             if (isAnsweringLocked || isQuizCompleted || roomStatus !== 'racing') return;
             isAnsweringLocked = true;
 
-            const qObj = myQuestions[currentQuestionIndex];
-            const isCorrect = selectedIndex === qObj.ans;
+            const correctIdx = window._currentCorrectOptIdx;
+            const isCorrect = selectedIndex === correctIdx;
             const box = document.getElementById('quiz-question-box');
             const feedbackPill = document.getElementById('quiz-feedback-pill');
             const chosenBtn = document.getElementById(`opt-btn-${selectedIndex}`);
-            const correctBtn = document.getElementById(`opt-btn-${qObj.ans}`);
+            const correctBtn = document.getElementById(`opt-btn-${correctIdx}`);
 
             if (isCorrect) {
                 playCorrectSound();
@@ -1320,7 +1622,7 @@
                 chosenBtn.classList.remove('border-slate-700', 'bg-slate-950');
                 chosenBtn.classList.add('border-emerald-400', 'bg-emerald-500/20');
 
-                feedbackPill.textContent = '✓ BENAR! +10%';
+                feedbackPill.textContent = '✓ BENAR! MAJU!';
                 feedbackPill.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/50';
             } else {
                 playWrongSound();
@@ -1330,7 +1632,6 @@
                 chosenBtn.classList.remove('border-slate-700', 'bg-slate-950');
                 chosenBtn.classList.add('border-rose-500', 'bg-rose-500/20');
 
-                // Sorot jawaban yang benar sekilas sebagai edukasi cepat
                 if (correctBtn) {
                     correctBtn.classList.remove('border-slate-700');
                     correctBtn.classList.add('border-emerald-400/70');
@@ -1341,15 +1642,16 @@
             }
 
             const answeredSoFar = currentQuestionIndex + 1;
-            const newProgress = correctCount * 10;
-            const completedNow = answeredSoFar >= 10;
+            const newProgress = calcProgressPercent(correctCount);
+            const completedNow = answeredSoFar >= TOTAL_QUESTIONS_PER_PLAYER;
 
             updateQuizProgressHeader();
 
             // Sinkronisasi langsung ke Firestore agar karakter di layar auditorium bergerak maju real-time
             if (isCloudConnected && currentUser && myPlayerId) {
                 const now = Date.now();
-                const duration = completedNow ? (now - (raceStartTimestamp || now)) : null;
+                const startRef = roomRaceStartedAt || raceStartTimestamp || now;
+                const duration = completedNow ? Math.min(QUIZ_DURATION_SECONDS * 1000, now - startRef) : null;
                 if (completedNow) myFinishDurationMs = duration;
 
                 updateDoc(getPlayerDocRef(activeRoomCode, myPlayerId), {
@@ -1362,12 +1664,15 @@
                 }).catch(err => console.error("Update quiz progress error:", err));
             }
 
-            // Jeda 0.6 detik agar siswa melihat umpan balik visual, lalu lanjut soal berikutnya atau layar selesai
             setTimeout(() => {
+                if (isTimedOut) return;
                 currentQuestionIndex++;
-                if (currentQuestionIndex >= 10) {
+                if (currentQuestionIndex >= TOTAL_QUESTIONS_PER_PLAYER) {
                     isQuizCompleted = true;
-                    if (correctCount >= 8) playVictoryFanfare();
+                    if (playerTimerInterval) clearInterval(playerTimerInterval);
+                    if (correctCount >= 12) playVictoryFanfare();
+                    document.getElementById('finish-main-title').textContent = '15 SOAL SELESAI!';
+                    document.getElementById('finish-sub-title').textContent = 'Hasilmu telah tercatat di layar auditorium';
                     switchPlayerSubView('finish');
                 } else {
                     renderCurrentQuestion();
